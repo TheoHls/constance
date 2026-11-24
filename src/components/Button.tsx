@@ -28,6 +28,7 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'c
   leadingIcon?: IconName
   trailingIcon?: IconName
   fullWidth?: boolean
+  justify?: 'center' | 'between'
 }
 
 export function Button({
@@ -37,13 +38,16 @@ export function Button({
   leadingIcon,
   trailingIcon,
   fullWidth = false,
+  justify = 'center',
   type = 'button',
   ...props
 }: ButtonProps) {
   return (
     <button
       type={type}
-      className={`flex shrink-0 items-center justify-center gap-8 rounded-full whitespace-nowrap focus-ring disabled:opacity-40 ${kindClasses[kind]} ${sizeClasses[size]} ${fullWidth ? 'w-full' : ''}`}
+      className={`flex items-center gap-8 rounded-full whitespace-nowrap focus-ring disabled:opacity-40 ${kindClasses[kind]} ${sizeClasses[size]} ${
+        fullWidth ? 'w-full min-w-0' : 'shrink-0'
+      } ${justify === 'between' ? 'justify-between' : 'justify-center'}`}
       {...props}
     >
       {leadingIcon && <Icon name={leadingIcon} size={iconSizes[size]} />}

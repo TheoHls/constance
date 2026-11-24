@@ -55,3 +55,16 @@ Largeur Fill, h 54, p 6, gap 4, rayon 12. Trois rangées : note 6 px (6 x 5 à d
 
 ## Bottom sheet (47:2113)
 390, rayon 40, Background/surface, bordure 1 Border/strong. Handle 40 x 5 Border/strong, p 16 autour. Contenu en dessous sans padding.
+
+## Écrans (page Design)
+- Barre de statut 47 (safe area dans le code). Barre du haut p 16, boutons M Secondary.
+- Home : H1, liste p 8, gap 8, pb 120. Empty : pt 40, image 358 x 201 rayon 16, gap 24, titre H2, texte Text md secondary (max 240), gap 8, Create a habit (L Primary, Add).
+- Habit detail : px 16, pt 8, pb 40, gap 16. H1 + Text md tertiary, gap 8. Carte Calendar p 16, gap 16, rayon 24 ; pied gap 8 : mois (M Secondary, Chevron down, étiré, contenu réparti), Today, flèches M. Aide Text xs tertiary centrée.
+- Notes : titre H3 + nom Text sm tertiary, contenu px 16, gap 32, notes gap 16. Empty : même bloc que Home, Add a note (L Accent, Add à droite).
+- Overlay : Background/overlay, flou Figma 16 (8 px en CSS), p 8, pb 40. Sheet 374 de large.
+- En-tête de sheet : p 16, boutons M, titre H2 centré. Corps p 16, gap 40.
+- Add note : nom H3 Neutral/200, date Text sm tertiary, check 40 ; champ 3 lignes ; Calendar (L Secondary) + Save, gap 16.
+- Pick a date : Calendar sans point ni note, Previous month / Next month M, gap 16.
+- Create / Edit : champs gap 24, description 2 lignes (73), couleurs 6 colonnes gap 16.
+- Confirmations : H2 + Text md secondary gap 16, boutons L gap 16.
+- Sign in : fond image, px 8, pb 40, bloc p 24, gap 32, H1 + Text md secondary gap 12.

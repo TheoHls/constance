@@ -1,9 +1,9 @@
 import type { CSSProperties } from 'react'
 
-/** Teintes proposées dans le Color dot, dans l'ordre Tailwind. */
+/** Teintes proposées dans le Color dot, dans l'ordre Tailwind, puis le gris. */
 export const habitColors = [
   'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan',
-  'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose',
+  'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral',
 ] as const
 
 export type HabitColor = (typeof habitColors)[number]

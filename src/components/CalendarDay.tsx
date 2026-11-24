@@ -11,12 +11,14 @@ type CalendarDayProps = {
   day: 'default' | 'prev/next month' | 'current'
   habit: 'done' | 'not done'
   showNote?: boolean
+  showHabitDone?: boolean
   disabled?: boolean
   /** Appui long, ou Entrée au clavier. */
   onHold?: () => void
+  onPress?: () => void
 }
 
-export function CalendarDay({ dayNumber, label, day, habit, showNote = false, disabled, onHold }: CalendarDayProps) {
+export function CalendarDay({ dayNumber, label, day, habit, showNote = false, showHabitDone = true, disabled, onHold, onPress }: CalendarDayProps) {
   const timer = useRef<number>(undefined)
   const start = useRef({ x: 0, y: 0 })
   const done = habit === 'done'
@@ -50,6 +52,7 @@ export function CalendarDay({ dayNumber, label, day, habit, showNote = false, di
       onPointerLeave={cancel}
       onPointerCancel={cancel}
       onContextMenu={(event) => event.preventDefault()}
+      onClick={onPress}
       onKeyDown={(event) => {
         if (event.key === 'Enter' && !event.repeat) onHold?.()
       }}
@@ -60,7 +63,7 @@ export function CalendarDay({ dayNumber, label, day, habit, showNote = false, di
       <span className="flex h-[6px] w-full items-center justify-end">{showNote && <NoteIcon color="light" />}</span>
       <span className={`type-text-lg ${text}`}>{dayNumber}</span>
       <span className="flex h-[6px] items-center">
-        {done && <span className="size-[6px] rounded-full bg-background-accent" />}
+        {done && showHabitDone && <span className="size-[6px] rounded-full bg-background-accent" />}
       </span>
     </button>
   )

@@ -36,7 +36,7 @@ export function KitComponents() {
 
       <section className="flex flex-col gap-12">
         <h2 className="type-h2">Color dot</h2>
-        <div className="flex flex-wrap gap-12">
+        <div className="grid grid-cols-6 gap-16">
           {habitColors.map((item) => (
             <ColorDot key={item} color={item} selected={item === color} onSelect={() => setColor(item)} />
           ))}

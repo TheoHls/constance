@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from 'react'
 
 const CLOSE_DISTANCE = 80
 /** px par ms */
@@ -9,12 +9,14 @@ type BottomSheetProps = {
   label: string
   /** Équivalent de Cancel : fond, Échap ou poignée glissée vers le bas. */
   onClose: () => void
+  /** Accent de l'habitude, s'il diffère de celui de l'écran. */
+  style?: CSSProperties
   /** Slot Content */
   children: ReactNode
 }
 
 /** Monté uniquement quand il est ouvert. Reste dans la colonne de 390 px sur le web. */
-export function BottomSheet({ label, onClose, children }: BottomSheetProps) {
+export function BottomSheet({ label, style: accent, onClose, children }: BottomSheetProps) {
   const dialog = useRef<HTMLDialogElement>(null)
   const drag = useRef<{ y: number; lastY: number; lastTime: number; velocity: number }>(undefined)
   const [offset, setOffset] = useState(0)
@@ -61,6 +63,7 @@ export function BottomSheet({ label, onClose, children }: BottomSheetProps) {
     <dialog
       ref={dialog}
       tabIndex={-1}
+      style={accent}
       aria-label={label}
       onCancel={(event) => {
         event.preventDefault()
@@ -69,11 +72,11 @@ export function BottomSheet({ label, onClose, children }: BottomSheetProps) {
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose()
       }}
-      className="mx-auto flex h-dvh max-h-none w-full max-w-none flex-col justify-end bg-background-overlay text-text-icon-default outline-none backdrop:bg-transparent sm:max-w-[390px]"
+      className="mx-auto flex h-dvh max-h-none w-full max-w-none flex-col justify-end bg-background-overlay p-8 pb-40 backdrop-blur-[8px] text-text-icon-default outline-none backdrop:bg-transparent sm:max-w-[390px]"
     >
       <div
         style={offset > 0 ? { transform: `translateY(${offset}px)` } : undefined}
-        className={`flex max-h-full w-full flex-col overflow-y-auto rounded-40 border border-border-strong bg-background-surface sheet-slide-up ${
+        className={`flex max-h-full w-full flex-col overflow-clip rounded-40 border border-border-strong bg-background-surface sheet-slide-up ${
           dragging ? '' : 'transition-transform'
         }`}
       >
@@ -86,7 +89,7 @@ export function BottomSheet({ label, onClose, children }: BottomSheetProps) {
         >
           <span className="h-[5px] w-[40px] rounded-full bg-border-strong" />
         </div>
-        {children}
+        <div className="no-scrollbar min-h-0 overflow-y-auto overscroll-contain">{children}</div>
       </div>
     </dialog>
   )

@@ -8,6 +8,8 @@ type LargeTextInputProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'cl
   showLabel?: boolean
   helper?: string
   error?: boolean
+  /** Hauteur minimale : 2 lignes dans les formulaires, 3 pour une note. */
+  minLines?: 2 | 3
 }
 
 export function LargeTextInput({
@@ -17,6 +19,7 @@ export function LargeTextInput({
   showLabel = true,
   helper,
   error = false,
+  minLines = 3,
   disabled,
   ...props
 }: LargeTextInputProps) {
@@ -39,7 +42,9 @@ export function LargeTextInput({
           aria-label={showLabel ? undefined : label}
           aria-invalid={error}
           aria-describedby={helper ? helperId : undefined}
-          className="field-sizing-content min-h-[57px] w-full resize-none bg-transparent type-text-md text-text-icon-default outline-none placeholder:text-text-icon-tertiary"
+          className={`field-sizing-content w-full resize-none bg-transparent type-text-md text-text-icon-default outline-none placeholder:text-text-icon-tertiary ${
+            minLines === 2 ? 'min-h-[38px]' : 'min-h-[57px]'
+          }`}
         />
       </div>
       {helper && <Helper id={helperId} text={helper} error={error} />}

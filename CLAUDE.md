@@ -26,6 +26,8 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - `src/lib/dates.ts` : dates locales `YYYY-MM-DD` (type `Day`), semaines, formats.
 - `src/lib/habitColors.ts` : `accentStyle(color)` pose `--accent` et `--accent-on` sur le conteneur de l'habitude.
 - `src/components/` : un composant par composant Figma. États Empty/Filled/Focus des inputs = valeur + focus.
+- `src/pages/` : Home, HabitDetail, Notes, SignIn + sheets (HabitSheets, NoteSheet, ChooseMonthSheet). Routes `/`, `/habits/:id`, `/habits/:id/notes`, `/sign-in` (`?expired`), `/kit`.
+- `src/data/store.tsx` : données factices en mémoire derrière `useStore()`, à remplacer par Supabase en phase 6.
 - `src/components/Icon.tsx` : icônes Icon/*, trait 2 px à toutes les tailles. `src/pages/Kit.tsx` : page `/kit`.
 
 ## Décisions
@@ -36,6 +38,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Text-Icon/inverted = Neutral/950.
 - Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Le champ code reste à dessiner dans Figma (Check your email).
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
+- 18 couleurs d'habitude : 17 teintes + Neutral/300, Yellow par défaut.
 - Large text input : ni compteur ni limite de caractères.
 - Segment actif `Background/selected`, texte inactif secondary : validé.
 - Auteur des commits : adresse noreply GitHub.
@@ -46,7 +49,8 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Home : le bouton check = aujourd'hui (optimiste), précédé de 14 Day dot pour les jours d'avant (hier à droite).
 - Bottom sheet : poignée glissée vers le bas = Cancel.
 - Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
-- Calendar : choix du mois, rattrapage d'un jour passé, appui long = ajouter une note.
+- Rattrapage d'un jour passé : sheet Add note, Pick a date puis bouton check.
+- Calendar : choix du mois, appui long = ajouter une note.
 - Note = un jour + un texte, liée à une habitude, Done/Not done selon le check du jour.
 - Create : Save désactivé si nom vide. Edit : quitter avec changements ouvre Unsaved changes. Delete habit supprime checks et notes.
 
@@ -61,8 +65,8 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 0. Projet, PWA, GitHub Pages
 - [x] 1. Tokens, typo, icônes
 - [x] 2. Composants de base + /kit
-- [ ] 3. Composants composés : codé, à valider
-- [ ] 4. Écrans, données factices
+- [x] 3. Composants composés
+- [ ] 4. Écrans, données factices : codé, à valider
 - [ ] 5. Supabase, RLS, auth
 - [ ] 6. Vraies données
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
@@ -70,10 +74,12 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 ## Points ouverts
 - Quota Figma MCP (plan Starter) atteint : lire dans le navigateur intégré (panneau de droite, lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque, jamais d'édition). Relevé : `docs/figma-notes.md`.
 - Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
-- Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias).
+- Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias, aussi pour le titre de Add note).
 - Icône check de Habit card : pas un Icon/*, tracé repris dans `docs/figma-notes.md`.
-- `Visuels/` (3 images) non commité, usage à vérifier en phase 4. Icône de l'app à fournir.
+- `Visuels/` (originaux, non commités) : Background_Visual = Sign in, Habit_Empty = Home vide, Note_Empty = Notes vide. Copies utilisées dans `src/assets/`. Icône de l'app à fournir.
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
-- Neutral/300 apparaît dans Edit habit : 17 teintes par défaut, à revoir en phase 4.
-- Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, glissement de fermeture 80 px ou geste rapide, « Today » et « Yesterday ».
+- Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, glissement de fermeture 80 px ou geste rapide, « Today ».
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
+- Manquent dans Figma : supprimer une note, déconnexion, réordonner les habitudes, champ code de Check your email. Plusieurs notes possibles le même jour.
+- Text-Icon/inverted est lié au H1 de Home et Habit detail dans Figma, mais rendu blanc : le code utilise default.
+- Phase 7 : clavier iOS devant les sheets, à tester.

@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      workbox: { globPatterns: ['**/*.{js,css,html}', '**/*-latin-[0-9]*.woff2'] },
+      workbox: { globPatterns: ['**/*.{js,css,html,jpg}', '**/*-latin-[0-9]*.woff2'] },
       manifest: {
         name: 'Constance',
         short_name: 'Constance',

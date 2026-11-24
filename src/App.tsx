@@ -1,20 +1,29 @@
-import { Route, Routes } from 'react-router'
+import { useLayoutEffect } from 'react'
+import { Navigate, Route, Routes, useLocation } from 'react-router'
+import { StoreProvider } from './data/store'
+import { HabitDetail } from './pages/HabitDetail'
+import { Home } from './pages/Home'
 import { Kit } from './pages/Kit'
-
-// Page provisoire de la phase 0, remplacée par les vrais écrans en phase 4.
-function Hello() {
-  return (
-    <main className="flex min-h-dvh items-center justify-center">
-      <h1 className="type-h1">Hello</h1>
-    </main>
-  )
-}
+import { Notes } from './pages/Notes'
+import { SignIn } from './pages/SignIn'
 
 export function App() {
+  const { pathname } = useLocation()
+  // Les accolades comptent : scrollTo renvoie une promesse dans les navigateurs récents.
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
   return (
-    <Routes>
-      <Route path="/kit" element={<Kit />} />
-      <Route path="*" element={<Hello />} />
-    </Routes>
+    <StoreProvider>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/habits/:id" element={<HabitDetail />} />
+        <Route path="/habits/:id/notes" element={<Notes />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/kit" element={<Kit />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </StoreProvider>
   )
 }

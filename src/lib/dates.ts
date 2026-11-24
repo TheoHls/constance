@@ -59,6 +59,28 @@ export function formatRelative(day: Day, today: Day): string {
   // L'arrondi absorbe les jours de 23 h et 25 h (changement d'heure).
   const days = Math.round((toDate(today).getTime() - toDate(day).getTime()) / 86_400_000)
   if (days === 0) return 'Today'
-  if (days === 1) return 'Yesterday'
+  if (days === 1) return '1 day ago'
   return `${days} days ago`
+}
+
+/** 0 = janvier */
+export type Month = { year: number; month: number }
+
+export const monthNames = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+]
+
+export function toMonth(day: Day): Month {
+  const date = toDate(day)
+  return { year: date.getFullYear(), month: date.getMonth() }
+}
+
+export function shiftMonth({ year, month }: Month, count: number): Month {
+  return toMonth(toDay(new Date(year, month + count, 1)))
+}
+
+/** Nov 2026 */
+export function monthTitle({ year, month }: Month): string {
+  return new Date(year, month, 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
 }

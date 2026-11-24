@@ -1,5 +1,6 @@
 import { accentStyle, type HabitColor } from '../lib/habitColors'
 
+/** Remplit sa colonne de la grille. */
 type ColorDotProps = {
   color: HabitColor
   selected?: boolean
@@ -14,7 +15,7 @@ export function ColorDot({ color, selected = false, onSelect }: ColorDotProps) {
       aria-pressed={selected}
       onClick={onSelect}
       style={accentStyle(color)}
-      className={`size-[48px] shrink-0 rounded-full bg-background-accent focus-ring ${selected ? 'color-dot-ring' : ''}`}
+      className={`aspect-square w-full rounded-full bg-background-accent focus-ring ${selected ? 'color-dot-ring' : ''}`}
     />
   )
 }
