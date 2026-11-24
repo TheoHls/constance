@@ -21,7 +21,7 @@ export function NotesCard({ notes, today, doneDays, onAllNotes, onAddNote }: Not
         </div>
       ) : (
         <>
-          <div className="flex items-center gap-8">
+          <div className="flex items-center justify-between">
             <h2 className="flex gap-8 type-h3">
               Notes <span className="text-text-icon-tertiary">{notes.length}</span>
             </h2>

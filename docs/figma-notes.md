@@ -51,7 +51,7 @@ Largeur Fill, h 54, p 6, gap 4, rayon 12. Trois rangées : note 6 px (6 x 5 à d
 358 x 85, px 16, py 12, gap 8, rayon 16, Background/surface, bordure 1 Border/default (Selected Border/focus). Day dot M, date et date relative Text sm secondary, gap 8. Edit : Button S Secondary. Note Text md default.
 
 ## Notes card (90:6589)
-358, p 16, gap 12, rayon 24, Background/surface, bordure Border/default. Titre H3 + nombre H3 tertiary, gap 8, puis All notes (S Secondary, Chevron right). Empty : titre H3, Add a note (S Secondary, Add) à droite.
+358, p 16, gap 12, rayon 24, Background/surface, bordure Border/default. Titre H3 + nombre H3 tertiary, gap 8, puis All notes (S Secondary, Chevron right) aligné à droite (décision utilisateur, collé au titre dans Figma). Empty : titre H3, Add a note (S Secondary, Add) à droite.
 
 ## Bottom sheet (47:2113)
 390, rayon 40, Background/surface, bordure 1 Border/strong. Handle 40 x 5 Border/strong, p 16 autour. Contenu en dessous sans padding.
