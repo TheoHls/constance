@@ -9,7 +9,8 @@ En ligne : https://theohls.github.io/constance/ (repo public TheoHls/constance, 
 - Figma est la source de vérité : fileKey `Fd7UWF1snuqUVdf2ocQJco`. Pages : Ui-kit `41:827`, Design `47:2414`, Moodboard (à ignorer).
 - `DESIGN_SYSTEM.md` = référence globale (tokens, styles, composants, écrans). En cas d'écart, Figma gagne.
 - Figma en LECTURE SEULE, sauf demande explicite (alors sur des copies, sans toucher aux écrans existants) : lire avec le connecteur au moment de construire (get_design_context + get_screenshot sur le nœud). Ne jamais modifier le fichier. Info manquante ou quota atteint : demander.
-- Tout état, prop ou variante visuelle existe d'abord sur le composant Figma, validé, avant d'être codé. Un override sur un écran ne suffit pas : demander.
+- Gouvernance Figma = l'utilisateur. Tout état, prop ou variante visuelle existe d'abord sur le composant Figma (Ui-kit), avec son accord, avant d'être codé. Un override sur un écran ou un écran validé ne suffit pas : demander avant, jamais après. Signaler tout écart code / Figma.
+- Ne pas envoyer de captures Figma : l'utilisateur vérifie dans Figma.
 - N'inventer aucune valeur. S'il manque un état, une valeur ou un écran : s'arrêter et demander.
 - Lire les descriptions des composants Figma. Un composant React par composant Figma, mêmes noms, variantes = props typées.
 - Les composants n'utilisent que les alias, sauf la palette d'habitude. Pas d'hexa en dur.
