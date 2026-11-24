@@ -12,7 +12,7 @@ export function fieldClasses(error: boolean) {
 
 export function Helper({ id, text, error }: { id: string; text: string; error: boolean }) {
   return (
-    <p id={id} className={`type-text-sm ${error ? 'text-text-icon-danger' : 'text-text-icon-tertiary'}`}>
+    <p id={id} className={`type-text-xs ${error ? 'text-text-icon-danger' : 'text-text-icon-tertiary'}`}>
       {text}
     </p>
   )

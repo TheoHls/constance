@@ -27,6 +27,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - `src/lib/habitColors.ts` : `accentStyle(color)` pose `--accent` et `--accent-on` sur le conteneur de l'habitude.
 - `src/components/` : un composant par composant Figma. États Empty/Filled/Focus des inputs = valeur + focus.
 - `src/pages/` : Home, HabitDetail, Notes, SignIn + sheets (HabitSheets, NoteSheet, ChooseMonthSheet). Routes `/`, `/habits/:id`, `/habits/:id/notes`, `/sign-in` (`?expired`), `/kit`.
+- `src/lib/supabase.ts`, `src/data/auth.tsx` : client, session, `RequireAuth`. SQL : `supabase/migrations/`.
 - `src/data/store.tsx` : données factices en mémoire derrière `useStore()`, à remplacer par Supabase en phase 6.
 - `src/components/Icon.tsx` : icônes Icon/*, trait 2 px à toutes les tailles. `src/pages/Kit.tsx` : page `/kit`.
 
@@ -36,7 +37,8 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Letter-spacing des titres en %, line-height 100 = Auto.
 - Tokens alignés sur `DESIGN_SYSTEM.md`.
 - Text-Icon/inverted = Neutral/950.
-- Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Le champ code reste à dessiner dans Figma (Check your email).
+- Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Écrans Figma ajoutés et validés : Sign in · Code `176:8149`, Code filled `176:8217`, Code invalid `176:8272` (remplacent Check your email).
+- L'app n'inscrit personne (`shouldCreateUser: false`), compte créé à la main. Sans variables Supabase : mode démo sans connexion.
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
 - 18 couleurs d'habitude : 17 teintes + Neutral/300, Yellow par défaut.
 - Large text input : ni compteur ni limite de caractères.
@@ -66,8 +68,8 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 1. Tokens, typo, icônes
 - [x] 2. Composants de base + /kit
 - [x] 3. Composants composés
-- [ ] 4. Écrans, données factices : codé, à valider
-- [ ] 5. Supabase, RLS, auth
+- [x] 4. Écrans, données factices
+- [ ] 5. Supabase, RLS, auth : codé, reste à créer le projet (`docs/supabase.md`)
 - [ ] 6. Vraies données
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
 
@@ -80,6 +82,6 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
 - Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, glissement de fermeture 80 px ou geste rapide, « Today ».
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
-- Manquent dans Figma : supprimer une note, déconnexion, réordonner les habitudes, champ code de Check your email. Plusieurs notes possibles le même jour.
+- Manquent dans Figma : supprimer une note, déconnexion, réordonner les habitudes, erreurs d'envoi et de réseau du Sign in (textes provisoires). Plusieurs notes possibles le même jour.
 - Text-Icon/inverted est lié au H1 de Home et Habit detail dans Figma, mais rendu blanc : le code utilise default.
 - Phase 7 : clavier iOS devant les sheets, à tester.
