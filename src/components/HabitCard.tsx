@@ -6,6 +6,7 @@ import { DayDot } from './DayDot'
 type HabitCardProps = {
   label: string
   color: HabitColor
+  type?: 'build' | 'quit'
   today: Day
   doneDays: ReadonlySet<Day>
   onToggleToday: () => void
@@ -30,7 +31,7 @@ export function HabitCardLoading() {
 }
 
 /** Le bouton check est le jour d'aujourd'hui, les 14 Day dot sont les jours d'avant. */
-export function HabitCard({ label, color, today, doneDays, onToggleToday, onOpen }: HabitCardProps) {
+export function HabitCard({ label, color, type = 'build', today, doneDays, onToggleToday, onOpen }: HabitCardProps) {
   const checked = doneDays.has(today)
   return (
     <article
@@ -48,7 +49,7 @@ export function HabitCard({ label, color, today, doneDays, onToggleToday, onOpen
         {lastDays(addDays(today, -1), 14).map((day) => (
           <DayDot key={day} size="L" habit={doneDays.has(day) ? 'done' : 'not done'} />
         ))}
-        <CheckButton label={`${label}, done today`} checked={checked} onToggle={onToggleToday} />
+        <CheckButton label={`${label}, done today`} checked={checked} type={type} onToggle={onToggleToday} />
       </div>
     </article>
   )

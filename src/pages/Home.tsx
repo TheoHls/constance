@@ -34,6 +34,7 @@ export function Home() {
               <HabitCard
                 label={habit.name}
                 color={habit.color}
+                type={habit.type}
                 today={today}
                 doneDays={doneDays(habit.id)}
                 onToggleToday={() => toggleDay(habit.id, today)}

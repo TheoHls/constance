@@ -52,6 +52,9 @@ function HabitForm({ draft, onChange, onSave }: FormProps) {
             selected={draft.type === 'build' ? 'first' : 'second'}
             onChange={(segment) => onChange({ ...draft, type: segment === 'first' ? 'build' : 'quit' })}
           />
+          <p className="type-text-xs text-text-icon-tertiary">
+            {draft.type === 'build' ? 'Check it each day you do it.' : 'Checked for you every day. Uncheck it if you slip.'}
+          </p>
         </div>
         <div className="flex flex-col gap-8">
           <p className="type-text-sm text-text-icon-secondary">Color</p>

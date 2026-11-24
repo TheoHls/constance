@@ -7,9 +7,11 @@ import * as remote from './remote'
 
 export type HabitType = 'build' | 'quit'
 export type HabitDraft = { name: string; description: string; type: HabitType; color: HabitColor }
-export type Habit = HabitDraft & { id: string; position: number; createdDay: Day }
+export type Habit = HabitDraft & { id: string; position: number; createdDay: Day; quitSince: Day | null }
 export type Note = { id: string; habitId: string; day: Day; body: string }
-export type Data = { habits: Habit[]; checkins: Record<string, ReadonlySet<Day>>; notes: Note[] }
+type Days = Record<string, ReadonlySet<Day>>
+/** checkins : jours cochés. slips : jours ratés des habitudes Quit, cochées d'office depuis quitSince. */
+export type Data = { habits: Habit[]; checkins: Days; slips: Days; notes: Note[] }
 
 /** Une modification : visible tout de suite, puis enregistrée. */
 type Change = { apply: (data: Data) => Data; send: () => Promise<void> }
@@ -41,7 +43,7 @@ const StoreContext = createContext<Store | null>(null)
 function fakeData(): Data {
   const today = toDay(new Date())
   const ago = (days: number) => addDays(today, -days)
-  const drafts: Omit<Habit, 'position' | 'createdDay'>[] = [
+  const drafts: Omit<Habit, 'position' | 'createdDay' | 'quitSince'>[] = [
     { id: 'stretching', name: 'Stretching', description: '10 min of hamstring and back stretches after waking up.', type: 'build', color: 'yellow' },
     { id: 'read', name: 'Read 20 min', description: 'A few pages before sleeping.', type: 'build', color: 'lime' },
     { id: 'meditate', name: 'Meditate', description: '', type: 'build', color: 'neutral' },
@@ -49,7 +51,7 @@ function fakeData(): Data {
     { id: 'sugar', name: 'No sugar', description: 'No dessert, no soda.', type: 'quit', color: 'sky' },
     { id: 'journal', name: 'Journal', description: '', type: 'build', color: 'violet' },
   ]
-  const habits: Habit[] = drafts.map((habit, position) => ({ ...habit, position, createdDay: ago(90) }))
+  const habits: Habit[] = drafts.map((habit, position) => ({ ...habit, position, createdDay: ago(90), quitSince: habit.type === 'quit' ? ago(90) : null }))
   const steps = [2, 3, 4, 5, 3, 6]
   const checkins = Object.fromEntries(
     habits.map((habit, index) => [
@@ -62,7 +64,21 @@ function fakeData(): Data {
     { id: 'n2', habitId: 'stretching', day: ago(1), body: 'Skipped today. Late night, woke up too tired. Back on it tomorrow morning.' },
     { id: 'n3', habitId: 'stretching', day: ago(6), body: "30 days in a row today. Mornings feel easier and my back hasn't hurt all week." },
   ]
-  return { habits, checkins, notes }
+  return { habits, checkins, slips: {}, notes }
+}
+
+/** Jours de `from` (inclus) à `to` (exclu). */
+function daysBetween(from: Day, to: Day): Day[] {
+  const days: Day[] = []
+  for (let day = from; day < to; day = addDays(day, 1)) days.push(day)
+  return days
+}
+
+function withDay(days: Days, habitId: string, day: Day, present: boolean): Days {
+  const next = new Set(days[habitId])
+  if (present) next.add(day)
+  else next.delete(day)
+  return { ...days, [habitId]: next }
 }
 
 const RELOAD_DELAY = 5000
@@ -184,50 +200,77 @@ export function StoreProvider({ userId, fallback, children }: StoreProviderProps
     return task
   }
 
-  const { habits, checkins, notes } = pending.reduce((data, item) => item.apply(data), saved)
+  const { habits, checkins, slips, notes } = pending.reduce((data, item) => item.apply(data), saved)
   const owner = userId ?? ''
+
+  const doneDays = (habitId: string): ReadonlySet<Day> => {
+    const checked = checkins[habitId] ?? noDays
+    const quitSince = habits.find((habit) => habit.id === habitId)?.quitSince
+    if (!quitSince) return checked
+    const missed = slips[habitId] ?? noDays
+    const tomorrow = addDays(toDay(new Date()), 1)
+    return new Set([...checked, ...daysBetween(quitSince, tomorrow).filter((day) => !missed.has(day))])
+  }
 
   const store: Store = {
     habits,
     notes,
-    doneDays: (habitId) => checkins[habitId] ?? noDays,
+    doneDays,
     habitNotes: (habitId) =>
       notes.filter((note) => note.habitId === habitId).sort((a, b) => b.day.localeCompare(a.day)),
     toggleDay: (habitId, day) => {
-      const done = !checkins[habitId]?.has(day)
+      const done = !doneDays(habitId).has(day)
+      const quitSince = habits.find((habit) => habit.id === habitId)?.quitSince
+      const automatic = !!quitSince && day >= quitSince
+      const mark = automatic ? (done ? null : 'slip') : done ? 'done' : null
       change(
-        (data) => {
-          const days = new Set(data.checkins[habitId])
-          if (done) days.add(day)
-          else days.delete(day)
-          return { ...data, checkins: { ...data.checkins, [habitId]: days } }
-        },
-        () => remote.setDay(owner, habitId, day, done),
+        (data) => ({
+          ...data,
+          checkins: withDay(data.checkins, habitId, day, mark === 'done'),
+          slips: withDay(data.slips, habitId, day, mark === 'slip'),
+        }),
+        () => remote.markDay(owner, habitId, day, mark),
       )
     },
     createHabit: (draft) => {
+      const today = toDay(new Date())
       const position = Math.max(-1, ...habits.map((habit) => habit.position)) + 1
-      const habit: Habit = { ...draft, id: crypto.randomUUID(), position, createdDay: toDay(new Date()) }
+      const habit: Habit = { ...draft, id: crypto.randomUUID(), position, createdDay: today, quitSince: draft.type === 'quit' ? today : null }
       change(
         (data) => ({ ...data, habits: [...data.habits, habit] }),
         () => remote.insertHabit(owner, habit),
       )
     },
-    updateHabit: (id, draft) =>
+    updateHabit: (id, draft) => {
+      const habit = habits.find((item) => item.id === id)
+      if (!habit) return
+      const today = toDay(new Date())
+      // Changer de type : les jours passés gardent leur état, la nouvelle règle commence aujourd'hui.
+      const toBuild = draft.type === 'build' && habit.quitSince
+      const kept = toBuild ? daysBetween(toBuild, today).filter((day) => !slips[id]?.has(day)) : []
+      const quitSince = draft.type === 'build' ? null : habit.type === 'quit' ? habit.quitSince : today
+      const next: Habit = { ...habit, ...draft, quitSince }
       change(
         (data) => ({
           ...data,
-          habits: data.habits.map((habit) => (habit.id === id ? { ...habit, ...draft } : habit)),
+          habits: data.habits.map((item) => (item.id === id ? { ...item, ...draft, quitSince } : item)),
+          checkins: kept.length ? { ...data.checkins, [id]: new Set([...(data.checkins[id] ?? noDays), ...kept]) } : data.checkins,
         }),
-        () => remote.updateHabit(id, draft),
-      ),
+        async () => {
+          if (kept.length) await remote.keepDays(owner, id, kept)
+          await remote.updateHabit(next)
+        },
+      )
+    },
     deleteHabit: (id) =>
       change(
         (data) => {
           const { [id]: _, ...rest } = data.checkins
+          const { [id]: _slips, ...slips } = data.slips
           return {
             habits: data.habits.filter((habit) => habit.id !== id),
             checkins: rest,
+            slips,
             notes: data.notes.filter((note) => note.habitId !== id),
           }
         },

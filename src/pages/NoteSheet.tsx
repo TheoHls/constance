@@ -80,7 +80,7 @@ export function NoteSheet({ habit, today, day: initialDay, note, onClose: close 
           <h2 className="truncate type-h3 text-[var(--neutral-200)]">{habit.name}</h2>
           <p className="type-text-sm text-text-icon-tertiary">{day === today ? 'Today' : formatDay(day)}</p>
         </div>
-        <CheckButton label={`${habit.name}, done on ${formatDay(day)}`} checked={done.has(day)} onToggle={() => toggleDay(habit.id, day)} />
+        <CheckButton label={`${habit.name}, done on ${formatDay(day)}`} checked={done.has(day)} type={habit.type} onToggle={() => toggleDay(habit.id, day)} />
       </div>
       <div className="flex flex-col gap-40 p-16">
         <LargeTextInput

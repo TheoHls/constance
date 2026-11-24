@@ -56,6 +56,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Home : appui long sur une carte puis glisser = réordonner (`194:8414`, `useReorder`), sans bordure sur la carte soulevée. Roue Settings (`194:8260`) = Sign out (`195:8558`).
 - Vider une note en l'éditant puis Save la supprime, sans confirmation (`196:9263`).
 - Heatmap : jours avant la création de l'habitude ou après aujourd'hui = Day dot Inactive (60 %, `235:9529`), sauf jour coché ou noté.
+- Quit : cochée d'office de `quit_since` à aujourd'hui, jours ratés = checkins `done = false`, croix au lieu du check (`CheckButton type`), aide sous le toggle. Changer de type : le passé est gardé, la règle change aujourd'hui.
 - Create / Edit : Save fixe en bas (Sheet footer `235:9800`, surface 75 %, flou).
 - Bottom sheet : poignée glissée vers le bas = Cancel. `overflow-clip` sur le dialog, sinon le focus le fait défiler à l'ouverture.
 - Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
@@ -67,7 +68,8 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 ## Données (phase 5)
 Toutes avec `user_id uuid default auth.uid()` et RLS `user_id = auth.uid()`, SQL en migration :
 - habits : id, name, description, type (build | quit), color, position, created_at
-- checkins : id, habit_id (cascade), day, unique(habit_id, day)
+- habits.quit_since (0002)
+- checkins : id, habit_id (cascade), day, done (0002), unique(habit_id, day)
 - notes : id, habit_id (cascade), day, body, created_at, updated_at
 Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite comment désactiver les inscriptions.
 

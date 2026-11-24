@@ -1,11 +1,13 @@
 type CheckButtonProps = {
   label: string
   checked: boolean
+  /** Habitude Quit : croix à la place du check. */
+  type?: 'build' | 'quit'
   onToggle: () => void
 }
 
 /** Gros bouton check de Habit card et de Add note. */
-export function CheckButton({ label, checked, onToggle }: CheckButtonProps) {
+export function CheckButton({ label, checked, type = 'build', onToggle }: CheckButtonProps) {
   return (
     <button
       type="button"
@@ -20,7 +22,11 @@ export function CheckButton({ label, checked, onToggle }: CheckButtonProps) {
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0">
         <path
-          d="M5 13.2592L7.58583 15.9568C8.2525 16.6523 8.58583 17 9.00004 17C9.41425 17 9.74759 16.6523 10.4143 15.9568L19 7"
+          d={
+            type === 'quit'
+              ? 'M6 6L18 18M18 6L6 18'
+              : 'M5 13.2592L7.58583 15.9568C8.2525 16.6523 8.58583 17 9.00004 17C9.41425 17 9.74759 16.6523 10.4143 15.9568L19 7'
+          }
           stroke="currentColor"
           strokeWidth="3"
           strokeLinecap="round"

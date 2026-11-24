@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabase'
 import { toDay, type Day } from '../lib/dates'
-import type { Data, Habit, HabitDraft, Note } from './store'
+import type { Data, Habit, Note } from './store'
 
 const PAGE = 1000
 const RETRY_DELAYS = [1000]
@@ -40,32 +40,49 @@ async function all<Row>(page: (from: number, to: number) => Request<{ data: Row[
 export async function loadData(): Promise<Data> {
   const db = client()
   const [habits, days, notes] = await Promise.all([
-    all<Omit<Habit, 'createdDay'> & { created_at: string }>((from, to) =>
-      db.from('habits').select('id, name, description, type, color, position, created_at').order('position').order('created_at').order('id').range(from, to),
+    all<Omit<Habit, 'createdDay' | 'quitSince'> & { created_at: string; quit_since: Day | null }>((from, to) =>
+      db.from('habits').select('id, name, description, type, color, position, created_at, quit_since').order('position').order('created_at').order('id').range(from, to),
     ),
-    all<{ habit_id: string; day: Day }>((from, to) =>
-      db.from('checkins').select('habit_id, day').order('id').range(from, to),
+    all<{ habit_id: string; day: Day; done: boolean }>((from, to) =>
+      db.from('checkins').select('habit_id, day, done').order('id').range(from, to),
     ),
     all<{ id: string; habit_id: string; day: Day; body: string }>((from, to) =>
       db.from('notes').select('id, habit_id, day, body').order('created_at').order('id').range(from, to),
     ),
   ])
   const checkins: Record<string, Set<Day>> = {}
-  for (const { habit_id, day } of days) (checkins[habit_id] ??= new Set()).add(day)
+  const slips: Record<string, Set<Day>> = {}
+  for (const { habit_id, day, done } of days) ((done ? checkins : slips)[habit_id] ??= new Set()).add(day)
   return {
-    habits: habits.map(({ created_at, ...habit }) => ({ ...habit, createdDay: toDay(new Date(created_at)) })),
+    habits: habits.map(({ created_at, quit_since, ...habit }) => ({
+      ...habit,
+      createdDay: toDay(new Date(created_at)),
+      quitSince: quit_since,
+    })),
     checkins,
+    slips,
     notes: notes.map(({ id, habit_id, day, body }) => ({ id, habitId: habit_id, day, body })),
   }
 }
 
 // user_id explicite : une écriture en attente ne peut pas partir dans un autre compte.
 
-export const insertHabit = (userId: string, { id, name, description, type, color, position }: Habit) =>
-  run(() => client().from('habits').upsert({ id, name, description, type, color, position, user_id: userId }))
+export const insertHabit = (userId: string, { id, name, description, type, color, position, quitSince }: Habit) =>
+  run(() => client().from('habits').upsert({ id, name, description, type, color, position, quit_since: quitSince, user_id: userId }))
 
-export const updateHabit = (id: string, { name, description, type, color }: HabitDraft) =>
-  run(() => client().from('habits').update({ name, description, type, color }).eq('id', id))
+export const updateHabit = ({ id, name, description, type, color, quitSince }: Habit) =>
+  run(() => client().from('habits').update({ name, description, type, color, quit_since: quitSince }).eq('id', id))
+
+/** Garde des jours cochés d'office quand une habitude Quit devient Build. */
+export const keepDays = (userId: string, habitId: string, days: Day[]) =>
+  run(() =>
+    client()
+      .from('checkins')
+      .upsert(
+        days.map((day) => ({ user_id: userId, habit_id: habitId, day, done: true })),
+        { onConflict: 'habit_id,day' },
+      ),
+  )
 
 export const deleteHabit = (id: string) => run(() => client().from('habits').delete().eq('id', id))
 
@@ -73,12 +90,13 @@ export async function orderHabits(ids: string[]): Promise<void> {
   await Promise.all(ids.map((id, position) => run(() => client().from('habits').update({ position }).eq('id', id))))
 }
 
-export const setDay = (userId: string, habitId: string, day: Day, done: boolean) =>
+/** done : coché. slip : jour raté d'une habitude Quit. null : aucune ligne. */
+export const markDay = (userId: string, habitId: string, day: Day, mark: 'done' | 'slip' | null) =>
   run(() =>
-    done
+    mark
       ? client()
           .from('checkins')
-          .upsert({ user_id: userId, habit_id: habitId, day }, { onConflict: 'habit_id,day', ignoreDuplicates: true })
+          .upsert({ user_id: userId, habit_id: habitId, day, done: mark === 'done' }, { onConflict: 'habit_id,day' })
       : client().from('checkins').delete().eq('habit_id', habitId).eq('day', day),
   )
 

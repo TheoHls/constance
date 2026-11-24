@@ -1,7 +1,7 @@
 # Mise en place de Supabase
 
 1. **Projet** : sur supabase.com, créer un projet (région Europe).
-2. **Tables** : SQL Editor, coller `supabase/migrations/0001_initial.sql`, Run.
+2. **Tables** : SQL Editor, coller `supabase/migrations/0001_initial.sql`, Run, puis `0002_quit_habits.sql`.
 3. **Adresses** : Authentication > URL Configuration. Site URL et Redirect URLs : `https://theohls.github.io/constance/`.
 4. **Inscriptions** : Authentication > Sign In / Providers, « Allow new users to sign up » activé, Email activé. (À désactiver pour fermer l'app.)
 5. **Code** : même page, Email : OTP length = 6 (8 par défaut).

@@ -165,7 +165,7 @@ One React component per Figma component, **same name, same properties**. Variant
 ### Cards & lists
 
 **Habit card** (`42:7796`)
-- Props: `Label` text · `Color` Grey / Yellow · `State` Checked / Not checked / Loading
+- Props: `Label` text · `Color` Grey / Yellow · `State` Checked / Not checked / Loading · `Type` Build (check) / Quit (cross)
 - Home row: name, last 14 days as Day dot L (most recent on the right), check button. Checked = done today. In code, done dots and check use the habit accent. Cards stacked with 8px gap.
 
 **Day dot** (`75:16158`, 16 variants)
