@@ -6,6 +6,7 @@ import { ConfirmSheet } from '../components/ConfirmSheet'
 import { IconButton } from '../components/IconButton'
 import { LargeTextInput } from '../components/LargeTextInput'
 import { SegmentedControl } from '../components/SegmentedControl'
+import { SheetFooter } from '../components/SheetFooter'
 import { SheetHeader } from '../components/SheetHeader'
 import { TextInput } from '../components/TextInput'
 import { useStore, type Habit, type HabitDraft } from '../data/store'
@@ -61,7 +62,11 @@ function HabitForm({ draft, onChange, onSave }: FormProps) {
           </div>
         </div>
       </div>
-      <Button type="submit" label="Save" kind="accent" fullWidth disabled={!canSave(draft)} />
+      {/* Place du footer : bouton L. */}
+      <div className="h-[48px] shrink-0" />
+      <SheetFooter>
+        <Button type="submit" label="Save" kind="accent" fullWidth disabled={!canSave(draft)} />
+      </SheetFooter>
     </form>
   )
 }

@@ -51,7 +51,7 @@ export function HabitDetail() {
             <p className="type-text-md break-words whitespace-pre-wrap text-text-icon-tertiary">{habit.description}</p>
           )}
         </div>
-        <Heatmap today={today} doneDays={done} />
+        <Heatmap today={today} createdDay={habit.createdDay} doneDays={done} />
         <section className="flex flex-col gap-16 rounded-24 border border-border-default bg-background-surface p-16">
           <Calendar
             {...month}

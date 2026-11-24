@@ -55,6 +55,8 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Home : le bouton check = aujourd'hui (optimiste), précédé de 14 Day dot pour les jours d'avant (hier à droite).
 - Home : appui long sur une carte puis glisser = réordonner (`194:8414`, `useReorder`), sans bordure sur la carte soulevée. Roue Settings (`194:8260`) = Sign out (`195:8558`).
 - Vider une note en l'éditant puis Save la supprime, sans confirmation (`196:9263`).
+- Heatmap : jours avant la création de l'habitude ou après aujourd'hui = Day dot Inactive (60 %, `235:9529`), sauf jour coché ou noté.
+- Create / Edit : Save fixe en bas (Sheet footer `235:9800`, surface 75 %, flou).
 - Bottom sheet : poignée glissée vers le bas = Cancel. `overflow-clip` sur le dialog, sinon le focus le fait défiler à l'ouverture.
 - Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
 - Rattrapage d'un jour passé : appui dans le Calendar, ou sheet Add note, Pick a date puis bouton check.

@@ -39,7 +39,7 @@ export function Notes() {
         <IconButton icon="Add" label="Add a note" kind="secondary" size="M" onClick={() => setSheet({})} />
       </ScreenHeader>
       <div className="flex flex-col gap-32 px-16 pb-40">
-        <Heatmap type="notes" today={today} doneDays={done} noteDays={new Set(notes.map((note) => note.day))} />
+        <Heatmap type="notes" today={today} createdDay={habit.createdDay} doneDays={done} noteDays={new Set(notes.map((note) => note.day))} />
         {notes.length === 0 ? (
           <EmptyState image={emptyImage} title="No notes yet" description="Write a few words after a session to remember how it felt.">
             <Button label="Add a note" kind="accent" trailingIcon="Add" onClick={() => setSheet({})} />

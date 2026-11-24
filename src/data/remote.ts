@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase'
-import type { Day } from '../lib/dates'
+import { toDay, type Day } from '../lib/dates'
 import type { Data, Habit, HabitDraft, Note } from './store'
 
 const PAGE = 1000
@@ -40,8 +40,8 @@ async function all<Row>(page: (from: number, to: number) => Request<{ data: Row[
 export async function loadData(): Promise<Data> {
   const db = client()
   const [habits, days, notes] = await Promise.all([
-    all<Habit>((from, to) =>
-      db.from('habits').select('id, name, description, type, color, position').order('position').order('created_at').order('id').range(from, to),
+    all<Omit<Habit, 'createdDay'> & { created_at: string }>((from, to) =>
+      db.from('habits').select('id, name, description, type, color, position, created_at').order('position').order('created_at').order('id').range(from, to),
     ),
     all<{ habit_id: string; day: Day }>((from, to) =>
       db.from('checkins').select('habit_id, day').order('id').range(from, to),
@@ -53,7 +53,7 @@ export async function loadData(): Promise<Data> {
   const checkins: Record<string, Set<Day>> = {}
   for (const { habit_id, day } of days) (checkins[habit_id] ??= new Set()).add(day)
   return {
-    habits,
+    habits: habits.map(({ created_at, ...habit }) => ({ ...habit, createdDay: toDay(new Date(created_at)) })),
     checkins,
     notes: notes.map(({ id, habit_id, day, body }) => ({ id, habitId: habit_id, day, body })),
   }
@@ -61,8 +61,8 @@ export async function loadData(): Promise<Data> {
 
 // user_id explicite : une écriture en attente ne peut pas partir dans un autre compte.
 
-export const insertHabit = (userId: string, habit: Habit) =>
-  run(() => client().from('habits').upsert({ ...habit, user_id: userId }))
+export const insertHabit = (userId: string, { id, name, description, type, color, position }: Habit) =>
+  run(() => client().from('habits').upsert({ id, name, description, type, color, position, user_id: userId }))
 
 export const updateHabit = (id: string, { name, description, type, color }: HabitDraft) =>
   run(() => client().from('habits').update({ name, description, type, color }).eq('id', id))

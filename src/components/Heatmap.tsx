@@ -7,6 +7,8 @@ const WEEKS = 26
 type HeatmapProps = {
   type?: 'default' | 'notes'
   today: Day
+  /** Jour de création de l'habitude. */
+  createdDay: Day
   doneDays: ReadonlySet<Day>
   /** Jours avec note, affichés en « M + note » dans le type notes. */
   noteDays?: ReadonlySet<Day>
@@ -22,7 +24,7 @@ function monthLabels(weeks: Day[][]): (string | undefined)[] {
   return labels
 }
 
-export function Heatmap({ type = 'default', today, doneDays, noteDays }: HeatmapProps) {
+export function Heatmap({ type = 'default', today, createdDay, doneDays, noteDays }: HeatmapProps) {
   const weeks = lastWeeks(today, WEEKS)
   const labels = monthLabels(weeks)
   const [atStart, setAtStart] = useState(false)
@@ -68,14 +70,19 @@ export function Heatmap({ type = 'default', today, doneDays, noteDays }: Heatmap
                     {labels[index]}
                   </span>
                 )}
-                {week.map((day) => (
-                  <DayDot
-                    key={day}
-                    size={type === 'notes' && noteDays?.has(day) ? 'M + note' : 'M'}
-                    habit={doneDays.has(day) ? 'done' : 'not done'}
-                    today={day === today}
-                  />
-                ))}
+                {week.map((day) => {
+                  const noted = type === 'notes' && noteDays?.has(day)
+                  // Un jour coché ou noté garde son apparence.
+                  const inactive = !noted && (day < createdDay || day > today)
+                  return (
+                    <DayDot
+                      key={day}
+                      size={noted ? 'M + note' : 'M'}
+                      habit={doneDays.has(day) ? 'done' : inactive ? 'inactive' : 'not done'}
+                      today={day === today}
+                    />
+                  )
+                })}
               </div>
             ))}
           </div>

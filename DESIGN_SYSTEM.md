@@ -169,7 +169,7 @@ One React component per Figma component, **same name, same properties**. Variant
 - Home row: name, last 14 days as Day dot L (most recent on the right), check button. Checked = done today. In code, done dots and check use the habit accent. Cards stacked with 8px gap.
 
 **Day dot** (`75:16158`, 16 variants)
-- Props: `Size` S / M / L / M + note · `Habit` Done / Not done · `Today` false / true
+- Props: `Size` S / M / L / M + note · `Habit` Done / Not done / Inactive (M only, Not done at 60%, Heatmap) · `Today` false / true
 - Done = `Background/accent`, Not done = `Background/elevated`.
 - Today = ring made with 2 drop shadows (white spread 2 + `Background/surface` spread 1), **no stroke**, clip content on.
 - L 16px (Habit card), M 12px (Heatmap, Note item), S 8px, "M + note" = M with the Note icon inside (Notes heatmap).
@@ -195,6 +195,9 @@ One React component per Figma component, **same name, same properties**. Variant
 **Bottom sheet** (`47:2113`)
 - Props: `Content` slot
 - Slides up over a full-screen frame filled with `Background/overlay`. Actions at the bottom: Button L full width, main action first (Accent inside a habit), then Secondary or Danger.
+
+**Sheet footer** (`235:9800`)
+- Main action fixed at the bottom of a tall Bottom sheet, `Background/surface` 75% + blur 16, content scrolls under it.
 
 ---
 

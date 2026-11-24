@@ -7,7 +7,7 @@ import * as remote from './remote'
 
 export type HabitType = 'build' | 'quit'
 export type HabitDraft = { name: string; description: string; type: HabitType; color: HabitColor }
-export type Habit = HabitDraft & { id: string; position: number }
+export type Habit = HabitDraft & { id: string; position: number; createdDay: Day }
 export type Note = { id: string; habitId: string; day: Day; body: string }
 export type Data = { habits: Habit[]; checkins: Record<string, ReadonlySet<Day>>; notes: Note[] }
 
@@ -41,7 +41,7 @@ const StoreContext = createContext<Store | null>(null)
 function fakeData(): Data {
   const today = toDay(new Date())
   const ago = (days: number) => addDays(today, -days)
-  const drafts: Omit<Habit, 'position'>[] = [
+  const drafts: Omit<Habit, 'position' | 'createdDay'>[] = [
     { id: 'stretching', name: 'Stretching', description: '10 min of hamstring and back stretches after waking up.', type: 'build', color: 'yellow' },
     { id: 'read', name: 'Read 20 min', description: 'A few pages before sleeping.', type: 'build', color: 'lime' },
     { id: 'meditate', name: 'Meditate', description: '', type: 'build', color: 'neutral' },
@@ -49,7 +49,7 @@ function fakeData(): Data {
     { id: 'sugar', name: 'No sugar', description: 'No dessert, no soda.', type: 'quit', color: 'sky' },
     { id: 'journal', name: 'Journal', description: '', type: 'build', color: 'violet' },
   ]
-  const habits: Habit[] = drafts.map((habit, position) => ({ ...habit, position }))
+  const habits: Habit[] = drafts.map((habit, position) => ({ ...habit, position, createdDay: ago(90) }))
   const steps = [2, 3, 4, 5, 3, 6]
   const checkins = Object.fromEntries(
     habits.map((habit, index) => [
@@ -207,7 +207,7 @@ export function StoreProvider({ userId, fallback, children }: StoreProviderProps
     },
     createHabit: (draft) => {
       const position = Math.max(-1, ...habits.map((habit) => habit.position)) + 1
-      const habit: Habit = { ...draft, id: crypto.randomUUID(), position }
+      const habit: Habit = { ...draft, id: crypto.randomUUID(), position, createdDay: toDay(new Date()) }
       change(
         (data) => ({ ...data, habits: [...data.habits, habit] }),
         () => remote.insertHabit(owner, habit),

@@ -79,7 +79,7 @@ export function BottomSheet({ label, style: accent, onClose, children }: BottomS
     >
       <div
         style={offset > 0 ? { transform: `translateY(${offset}px)` } : undefined}
-        className={`flex max-h-full w-full flex-col overflow-clip rounded-40 border border-border-strong bg-background-surface sheet-slide-up ${
+        className={`relative flex max-h-full w-full flex-col overflow-clip rounded-40 border border-border-strong bg-background-surface sheet-slide-up ${
           dragging ? '' : 'transition-transform'
         }`}
       >
@@ -92,7 +92,7 @@ export function BottomSheet({ label, style: accent, onClose, children }: BottomS
         >
           <span className="h-[5px] w-[40px] rounded-full bg-border-strong" />
         </div>
-        <div className="no-scrollbar min-h-0 overflow-y-auto overscroll-contain">{children}</div>
+        <div className="no-scrollbar min-h-0 overflow-y-auto [&:has(form)]:scroll-pb-80 overscroll-contain">{children}</div>
       </div>
     </dialog>
   )

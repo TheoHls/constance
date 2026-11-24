@@ -37,8 +37,8 @@ export function KitComposed({ color }: { color: HabitColor }) {
 
       <section className="flex flex-col gap-12">
         <h2 className="type-h2">Heatmap</h2>
-        <Heatmap today={today} doneDays={doneDays} />
-        <Heatmap type="notes" today={today} doneDays={doneDays} noteDays={noteDays} />
+        <Heatmap today={today} createdDay={addDays(today, -90)} doneDays={doneDays} />
+        <Heatmap type="notes" today={today} createdDay={addDays(today, -90)} doneDays={doneDays} noteDays={noteDays} />
       </section>
 
       <section className="flex flex-col gap-12">

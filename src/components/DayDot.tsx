@@ -2,7 +2,8 @@ import { NoteIcon } from './NoteIcon'
 
 type DayDotProps = {
   size: 'S' | 'M' | 'L' | 'M + note'
-  habit: 'done' | 'not done'
+  /** inactive : Heatmap seulement, avant la création de l'habitude ou après aujourd'hui. */
+  habit: 'done' | 'not done' | 'inactive'
   today?: boolean
 }
 
@@ -19,7 +20,7 @@ export function DayDot({ size, habit, today = false }: DayDotProps) {
     <span
       className={`flex shrink-0 items-center justify-center overflow-clip rounded-full ${sizeClasses[size]} ${
         done ? 'bg-background-accent' : 'bg-background-elevated'
-      } ${today ? 'today-ring' : ''}`}
+      } ${habit === 'inactive' ? 'opacity-60' : ''} ${today ? 'today-ring' : ''}`}
     >
       {size === 'M + note' && <NoteIcon color={done ? 'dark' : 'light'} />}
     </span>
