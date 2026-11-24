@@ -19,6 +19,9 @@ type Store = {
   updateHabit: (id: string, draft: HabitDraft) => void
   /** Supprime aussi les checks et les notes. */
   deleteHabit: (id: string) => void
+  /** Déplace une habitude dans la liste. */
+  moveHabit: (from: number, to: number) => void
+  deleteNote: (id: string) => void
   /** Sans id : nouvelle note. */
   saveNote: (note: Omit<Note, 'id'> & { id?: string }) => void
 }
@@ -84,6 +87,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           notes: data.notes.filter((note) => note.habitId !== id),
         }
       }),
+    moveHabit: (from, to) =>
+      setData((data) => {
+        const habits = [...data.habits]
+        habits.splice(to, 0, ...habits.splice(from, 1))
+        return { ...data, habits }
+      }),
+    deleteNote: (id) =>
+      setData((data) => ({ ...data, notes: data.notes.filter((note) => note.id !== id) })),
     saveNote: ({ id, ...note }) =>
       setData((data) => ({
         ...data,

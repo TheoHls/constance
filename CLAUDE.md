@@ -8,7 +8,7 @@ En ligne : https://theohls.github.io/constance/ (repo public TheoHls/constance, 
 ## Règles
 - Figma est la source de vérité : fileKey `Fd7UWF1snuqUVdf2ocQJco`. Pages : Ui-kit `41:827`, Design `47:2414`, Moodboard (à ignorer).
 - `DESIGN_SYSTEM.md` = référence globale (tokens, styles, composants, écrans). En cas d'écart, Figma gagne.
-- Figma en LECTURE SEULE : lire avec le connecteur au moment de construire (get_design_context + get_screenshot sur le nœud). Ne jamais modifier le fichier. Info manquante ou quota atteint : demander.
+- Figma en LECTURE SEULE, sauf demande explicite (alors sur des copies, sans toucher aux écrans existants) : lire avec le connecteur au moment de construire (get_design_context + get_screenshot sur le nœud). Ne jamais modifier le fichier. Info manquante ou quota atteint : demander.
 - N'inventer aucune valeur. S'il manque un état, une valeur ou un écran : s'arrêter et demander.
 - Lire les descriptions des composants Figma. Un composant React par composant Figma, mêmes noms, variantes = props typées.
 - Les composants n'utilisent que les alias, sauf la palette d'habitude. Pas d'hexa en dur.
@@ -37,7 +37,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Letter-spacing des titres en %, line-height 100 = Auto.
 - Tokens alignés sur `DESIGN_SYSTEM.md`.
 - Text-Icon/inverted = Neutral/950.
-- Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Écrans Figma ajoutés et validés : Sign in · Code `176:8149`, Code filled `176:8217`, Code invalid `176:8272` (remplacent Check your email).
+- Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Écrans Figma ajoutés et validés : Sign in · Code `176:8149`, Code filled `176:8217`, Code invalid `176:8272` (remplacent Check your email), Send error `193:8251`, Code error `193:8206`.
 - L'app n'inscrit personne (`shouldCreateUser: false`), compte créé à la main. Sans variables Supabase : mode démo sans connexion.
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
 - 18 couleurs d'habitude : 17 teintes + Neutral/300, Yellow par défaut.
@@ -49,6 +49,8 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 ## Règles métier
 - Semaine lundi-dimanche, dates locales.
 - Home : le bouton check = aujourd'hui (optimiste), précédé de 14 Day dot pour les jours d'avant (hier à droite).
+- Home : appui long sur une carte puis glisser = réordonner (`194:8414`, `useReorder`). Roue Settings (`194:8260`) = Sign out (`195:8558`).
+- Vider une note en l'éditant puis Save la supprime, sans confirmation (`196:9263`).
 - Bottom sheet : poignée glissée vers le bas = Cancel.
 - Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
 - Rattrapage d'un jour passé : sheet Add note, Pick a date puis bouton check.
@@ -82,6 +84,6 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
 - Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, glissement de fermeture 80 px ou geste rapide, « Today ».
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
-- Manquent dans Figma : supprimer une note, déconnexion, réordonner les habitudes, erreurs d'envoi et de réseau du Sign in (textes provisoires). Plusieurs notes possibles le même jour.
+- Plusieurs notes possibles le même jour. Erreurs de chargement et de sauvegarde (phase 6) : pas dessinées.
 - Text-Icon/inverted est lié au H1 de Home et Habit detail dans Figma, mais rendu blanc : le code utilise default.
 - Phase 7 : clavier iOS devant les sheets, à tester.

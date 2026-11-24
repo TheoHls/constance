@@ -21,7 +21,7 @@ type NoteSheetProps = {
 
 /** Add note, avec Pick a date dans la même sheet. */
 export function NoteSheet({ habit, today, day: initialDay, note, onClose }: NoteSheetProps) {
-  const { doneDays, toggleDay, saveNote } = useStore()
+  const { doneDays, toggleDay, saveNote, deleteNote } = useStore()
   const [day, setDay] = useState(note?.day ?? initialDay)
   const [body, setBody] = useState(note?.body ?? '')
   const [picking, setPicking] = useState(false)
@@ -84,9 +84,11 @@ export function NoteSheet({ habit, today, day: initialDay, note, onClose }: Note
             label="Save"
             kind="accent"
             fullWidth
-            disabled={body.trim() === ''}
+            disabled={!note && body.trim() === ''}
             onClick={() => {
-              saveNote({ id: note?.id, habitId: habit.id, day, body: body.trim() })
+              // Vider une note la supprime, sans confirmation.
+              if (note && body.trim() === '') deleteNote(note.id)
+              else saveNote({ id: note?.id, habitId: habit.id, day, body: body.trim() })
               onClose()
             }}
           />

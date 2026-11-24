@@ -10,6 +10,9 @@ type Auth = {
   signedIn: boolean
   /** Le lien ouvert est expiré, déjà utilisé, ou demandé depuis un autre navigateur. */
   linkExpired: boolean
+  /** Absent en mode démo. */
+  email: string | undefined
+  signOut: () => Promise<void>
 }
 
 const AuthContext = createContext<Auth | null>(null)
@@ -38,7 +41,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <AuthContext value={{ loading, signedIn: supabase === null || session !== null, linkExpired }}>
+    <AuthContext
+      value={{
+        loading,
+        signedIn: supabase === null || session !== null,
+        linkExpired,
+        email: session?.user.email,
+        // Cet appareil seulement, marche aussi hors ligne.
+        signOut: async () => {
+          await supabase?.auth.signOut({ scope: 'local' })
+        },
+      }}
+    >
       {children}
     </AuthContext>
   )
