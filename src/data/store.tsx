@@ -1,6 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { addDays, toDay, type Day } from '../lib/dates'
 import type { HabitColor } from '../lib/habitColors'
+import { Button } from '../components/Button'
+import { ConfirmSheet } from '../components/ConfirmSheet'
 import * as remote from './remote'
 
 export type HabitType = 'build' | 'quit'
@@ -26,9 +28,10 @@ type Store = {
   deleteHabit: (id: string) => void
   /** Déplace une habitude dans la liste. */
   moveHabit: (from: number, to: number) => void
-  deleteNote: (id: string) => void
+  /** Les notes ne sont affichées qu'une fois enregistrées : en cas d'échec, la promesse est rejetée. */
+  deleteNote: (id: string) => Promise<void>
   /** Sans id : nouvelle note. */
-  saveNote: (note: Omit<Note, 'id'> & { id?: string }) => void
+  saveNote: (note: Omit<Note, 'id'> & { id?: string }) => Promise<void>
 }
 
 const noDays: ReadonlySet<Day> = new Set()
@@ -64,11 +67,25 @@ function fakeData(): Data {
 
 const RELOAD_DELAY = 5000
 
-/** userId absent : mode démo. À monter avec key={userId}. */
-export function StoreProvider({ userId, children }: { userId: string | undefined; children: ReactNode }) {
+export type LoadStatus = 'loading' | 'error'
+
+type StoreProviderProps = {
+  /** Absent en mode démo. À monter avec key={userId}. */
+  userId: string | undefined
+  /** Affiché avant le premier chargement réussi. */
+  fallback: (status: LoadStatus, retry: () => void) => ReactNode
+  children: ReactNode
+}
+
+export function StoreProvider({ userId, fallback, children }: StoreProviderProps) {
   // Ce qui est affiché = données enregistrées + modifications en attente. Un échec retire la modification.
   const [saved, setSaved] = useState<Data | null>(() => (userId ? null : fakeData()))
   const [pending, setPending] = useState<Change[]>([])
+  const [status, setStatus] = useState<LoadStatus>('loading')
+  /** Échec en attente de la réponse de l'utilisateur : réessayer ou annuler. */
+  const [failure, setFailure] = useState<{ answer: (retry: boolean) => void }>()
+  const waiting = useRef(new Set<object>())
+  const retryLoad = useRef<() => void>(undefined)
   // Lectures et écritures une par une, dans l'ordre.
   const queue = useRef<Promise<void>>(Promise.resolve())
 
@@ -90,13 +107,20 @@ export function StoreProvider({ userId, children }: { userId: string | undefined
           loaded = true
         },
         () => {
-          if (active && !loaded) timer = window.setTimeout(refresh, RELOAD_DELAY)
+          if (!active || loaded) return
+          setStatus('error')
+          window.clearTimeout(timer)
+          timer = window.setTimeout(refresh, RELOAD_DELAY)
         },
       )
     }
     // Retour dans l'app : reprend les changements faits sur un autre appareil.
     const onVisible = () => {
       if (document.visibilityState === 'visible') refresh()
+    }
+    retryLoad.current = () => {
+      setStatus('loading')
+      refresh()
     }
     refresh()
     document.addEventListener('visibilitychange', onVisible)
@@ -107,8 +131,7 @@ export function StoreProvider({ userId, children }: { userId: string | undefined
     }
   }, [userId, load])
 
-  // Rien n'est affiché avant le premier chargement (état non dessiné).
-  if (!saved) return null
+  if (!saved) return fallback(status, () => retryLoad.current?.())
 
   const change = (apply: Change['apply'], send: Change['send']) => {
     if (!userId) {
@@ -117,15 +140,48 @@ export function StoreProvider({ userId, children }: { userId: string | undefined
     }
     const item: Change = { apply, send }
     setPending((items) => [...items, item])
+    waiting.current.add(item)
     queue.current = queue.current.then(async () => {
+      while (waiting.current.has(item)) {
+        try {
+          await send()
+          setSaved((data) => data && apply(data))
+          waiting.current.delete(item)
+          setPending((items) => items.filter((other) => other !== item))
+        } catch (error) {
+          console.error('Enregistrement refusé', error)
+          const retry = await new Promise<boolean>((answer) => setFailure({ answer }))
+          setFailure(undefined)
+          if (!retry) {
+            // Les modifications suivantes peuvent dépendre de celle-ci : tout est annulé, puis relu.
+            waiting.current.clear()
+            setPending([])
+            void load().catch(() => undefined)
+          }
+        }
+      }
+    })
+  }
+
+  /** Note : reste dans la sheet jusqu'à l'enregistrement. */
+  const confirmedChange = (apply: Change['apply'], send: Change['send']): Promise<void> => {
+    if (!userId) {
+      setSaved((data) => data && apply(data))
+      return Promise.resolve()
+    }
+    const item = {}
+    waiting.current.add(item)
+    const task = queue.current.then(async () => {
+      if (!waiting.current.has(item)) throw new Error('Annulé')
       try {
         await send()
         setSaved((data) => data && apply(data))
-      } catch (error) {
-        console.error('Enregistrement refusé', error)
+      } finally {
+        waiting.current.delete(item)
       }
-      setPending((items) => items.filter((other) => other !== item))
     })
+    queue.current = task.catch(() => undefined)
+    return task
   }
 
   const { habits, checkins, notes } = pending.reduce((data, item) => item.apply(data), saved)
@@ -194,13 +250,13 @@ export function StoreProvider({ userId, children }: { userId: string | undefined
       )
     },
     deleteNote: (id) =>
-      change(
+      confirmedChange(
         (data) => ({ ...data, notes: data.notes.filter((note) => note.id !== id) }),
         () => remote.deleteNote(id),
       ),
     saveNote: ({ id, ...fields }) => {
       const note: Note = { ...fields, id: id ?? crypto.randomUUID() }
-      change(
+      return confirmedChange(
         (data) => ({
           ...data,
           notes: id ? data.notes.map((item) => (item.id === id ? note : item)) : [...data.notes, note],
@@ -210,7 +266,16 @@ export function StoreProvider({ userId, children }: { userId: string | undefined
     },
   }
 
-  return <StoreContext value={store}>{children}</StoreContext>
+  return (
+    <StoreContext value={store}>
+      {children}
+      {failure && (
+        <ConfirmSheet title="Couldn’t save" description="Check your connection and try again." onClose={() => failure.answer(false)}>
+          <Button label="Try again" fullWidth onClick={() => failure.answer(true)} />
+        </ConfirmSheet>
+      )}
+    </StoreContext>
+  )
 }
 
 export function useStore(): Store {

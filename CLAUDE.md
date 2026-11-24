@@ -31,7 +31,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - `src/components/` : un composant par composant Figma. États Empty/Filled/Focus des inputs = valeur + focus.
 - `src/pages/` : Home, HabitDetail, Notes, SignIn + sheets (HabitSheets, NoteSheet, ChooseMonthSheet). Routes `/`, `/habits/:id`, `/habits/:id/notes`, `/sign-in` (`?expired`), `/kit`.
 - `src/lib/supabase.ts`, `src/data/auth.tsx` : client, session, `RequireAuth`. SQL : `supabase/migrations/`.
-- `src/data/store.tsx` : `useStore()`. Affiché = enregistré + modifications en attente ; écritures en file, une par une ; un échec retire la modification. Relecture au retour dans l'app. `src/data/remote.ts` : requêtes Supabase. Mode démo : données factices en mémoire.
+- `src/data/store.tsx` : `useStore()`. Affiché = enregistré + modifications en attente ; écritures en file, une par une . Échec : Save error, Try again ou Cancel (annule toutes les modifications en attente). Notes : affichées seulement une fois enregistrées, la sheet reste ouverte en cas d'échec. Relecture au retour dans l'app. `src/data/remote.ts` : requêtes Supabase. Mode démo : données factices en mémoire.
 - `src/components/Icon.tsx` : icônes Icon/*, trait 2 px à toutes les tailles. `src/pages/Kit.tsx` : page `/kit`.
 
 ## Décisions
@@ -77,17 +77,17 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 4. Écrans, données factices
 - [x] 5. Supabase, RLS, auth : en ligne, envoi par Gmail dédié + mot de passe d'application, connexion réelle testée par l'utilisateur (`docs/supabase.md`)
 - [x] 6. Vraies données : validé par l'utilisateur sur le vrai projet
-- [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
+- [ ] 7. Finitions PWA : icône faite. Reste safe areas, clavier, test iPhone
 
 ## Points ouverts
 - Figma dans le navigateur intégré : lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque. Relevé : `docs/figma-notes.md`.
 - Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias, aussi pour le titre de Add note).
 - Icône check de Habit card : pas un Icon/*, tracé repris dans `docs/figma-notes.md`.
-- `Visuels/` (originaux, non commités) : Background_Visual = Sign in, Habit_Empty = Home vide, Note_Empty = Notes vide. Copies utilisées dans `src/assets/`. Icône de l'app à fournir.
+- `Visuels/` (originaux, non commités) : Background_Visual = Sign in, Habit_Empty = Home vide, Note_Empty = Notes vide. Copies utilisées dans `src/assets/`. Icône de l'app : Figma `219:9459`, exportée dans `public/` (180, 192, 512).
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
 - Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, glissement de fermeture 80 px ou geste rapide, « Today ».
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
-- Plusieurs notes possibles le même jour. Proposés dans Figma (page Design, à valider, pas encore codés) : Home · Loading `219:8655` (carte `219:8654`, à mettre dans Habit card si validée), Home · Load error `219:8854`, Home · Save error `219:8895`, Notes · Save error `219:9093`, App icon `219:9459`. En attendant : écran noir au chargement (nouvel essai toutes les 5 s), modification annulée sans message si elle ne s'enregistre pas. Pas de hors ligne.
+- Plusieurs notes possibles le même jour. Chargement et erreurs : codés depuis Home · Loading `219:8655`, Home · Load error `219:8854`, Home · Save error `219:8895`, Notes · Save error `219:9093`. Loading n'est dessiné que pour Home (écran noir ailleurs). Pas de hors ligne.
 - Text-Icon/inverted est lié au H1 de Home et Habit detail dans Figma, mais rendu blanc : le code utilise default.
 - Phase 7 : clavier iOS devant les sheets, à tester.

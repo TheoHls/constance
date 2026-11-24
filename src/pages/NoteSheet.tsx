@@ -20,13 +20,33 @@ type NoteSheetProps = {
 }
 
 /** Add note, avec Pick a date dans la même sheet. */
-export function NoteSheet({ habit, today, day: initialDay, note, onClose }: NoteSheetProps) {
+export function NoteSheet({ habit, today, day: initialDay, note, onClose: close }: NoteSheetProps) {
   const { doneDays, toggleDay, saveNote, deleteNote } = useStore()
   const [day, setDay] = useState(note?.day ?? initialDay)
   const [body, setBody] = useState(note?.body ?? '')
   const [picking, setPicking] = useState(false)
   const [month, setMonth] = useState(() => toMonth(day))
+  const [saving, setSaving] = useState(false)
+  const [failed, setFailed] = useState(false)
   const done = doneDays(habit.id)
+
+  // Fermer pendant l'enregistrement ferait perdre le texte en cas d'échec.
+  const onClose = () => {
+    if (!saving) close()
+  }
+  const save = async () => {
+    setSaving(true)
+    setFailed(false)
+    try {
+      // Vider une note la supprime, sans confirmation.
+      if (note && body.trim() === '') await deleteNote(note.id)
+      else await saveNote({ id: note?.id, habitId: habit.id, day, body: body.trim() })
+      close()
+    } catch {
+      setFailed(true)
+      setSaving(false)
+    }
+  }
 
   if (picking) {
     const back = () => setPicking(false)
@@ -69,6 +89,9 @@ export function NoteSheet({ habit, today, day: initialDay, note, onClose }: Note
           placeholder="Why does this habit matter to you?"
           value={body}
           onChange={setBody}
+          readOnly={saving}
+          error={failed}
+          helper={failed ? 'We couldn’t save your note. Try again.' : undefined}
         />
         <div className="flex gap-16">
           <IconButton
@@ -84,13 +107,8 @@ export function NoteSheet({ habit, today, day: initialDay, note, onClose }: Note
             label="Save"
             kind="accent"
             fullWidth
-            disabled={!note && body.trim() === ''}
-            onClick={() => {
-              // Vider une note la supprime, sans confirmation.
-              if (note && body.trim() === '') deleteNote(note.id)
-              else saveNote({ id: note?.id, habitId: habit.id, day, body: body.trim() })
-              onClose()
-            }}
+            disabled={saving || (!note && body.trim() === '')}
+            onClick={() => void save()}
           />
         </div>
       </div>

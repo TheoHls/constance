@@ -12,6 +12,23 @@ type HabitCardProps = {
   onOpen: () => void
 }
 
+/** Habit card, State = Loading. */
+export function HabitCardLoading() {
+  return (
+    <div className="flex w-full flex-col gap-16 overflow-clip rounded-24 border border-border-default bg-background-surface p-20">
+      <div className="flex h-[24px] items-center">
+        <span className="h-[16px] w-[140px] rounded-full bg-background-elevated" />
+      </div>
+      <div className="flex items-center justify-end gap-[7px]">
+        {Array.from({ length: 14 }, (_, index) => (
+          <DayDot key={index} size="L" habit="not done" />
+        ))}
+        <span className="size-[40px] shrink-0 rounded-full bg-background-elevated" />
+      </div>
+    </div>
+  )
+}
+
 /** Le bouton check est le jour d'aujourd'hui, les 14 Day dot sont les jours d'avant. */
 export function HabitCard({ label, color, today, doneDays, onToggleToday, onOpen }: HabitCardProps) {
   const checked = doneDays.has(today)

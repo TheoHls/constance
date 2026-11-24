@@ -4,6 +4,7 @@ import { AuthProvider, RequireAuth, useAuth } from './data/auth'
 import { StoreProvider } from './data/store'
 import { HabitDetail } from './pages/HabitDetail'
 import { Home } from './pages/Home'
+import { HomeStatus } from './pages/HomeStatus'
 import { Kit } from './pages/Kit'
 import { Notes } from './pages/Notes'
 import { SignIn } from './pages/SignIn'
@@ -36,7 +37,11 @@ export function App() {
 function SignedInApp() {
   const { userId } = useAuth()
   return (
-    <StoreProvider key={userId} userId={userId}>
+    <StoreProvider
+      key={userId}
+      userId={userId}
+      fallback={(status, retry) => <HomeStatus status={status} onRetry={retry} />}
+    >
       <Outlet />
     </StoreProvider>
   )

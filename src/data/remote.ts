@@ -3,9 +3,12 @@ import type { Day } from '../lib/dates'
 import type { Data, Habit, HabitDraft, Note } from './store'
 
 const PAGE = 1000
-const RETRY_DELAYS = [1000, 3000]
+const RETRY_DELAYS = [1000]
+/** Sinon une requête bloquée retient toute la file. */
+const TIMEOUT = 10_000
 
 type Result = { error: { message: string } | null; status: number }
+type Request<T> = { abortSignal: (signal: AbortSignal) => PromiseLike<T> }
 
 function client() {
   if (!supabase) throw new Error('Supabase non configuré')
@@ -13,9 +16,9 @@ function client() {
 }
 
 /** Réessaie si le réseau est coupé (status 0) : toutes les écritures peuvent être rejouées. */
-async function run(request: () => PromiseLike<Result>): Promise<void> {
+async function run(request: () => Request<Result>): Promise<void> {
   for (let attempt = 0; ; attempt++) {
-    const { error, status } = await request()
+    const { error, status } = await request().abortSignal(AbortSignal.timeout(TIMEOUT))
     if (!error) return
     const delay = RETRY_DELAYS[attempt]
     if (status !== 0 || delay === undefined) throw new Error(error.message)
@@ -24,10 +27,10 @@ async function run(request: () => PromiseLike<Result>): Promise<void> {
 }
 
 /** Supabase limite chaque réponse à 1000 lignes : lit toutes les pages. */
-async function all<Row>(page: (from: number, to: number) => PromiseLike<{ data: Row[] | null; error: { message: string } | null }>): Promise<Row[]> {
+async function all<Row>(page: (from: number, to: number) => Request<{ data: Row[] | null; error: { message: string } | null }>): Promise<Row[]> {
   const rows: Row[] = []
   for (;;) {
-    const { data, error } = await page(rows.length, rows.length + PAGE - 1)
+    const { data, error } = await page(rows.length, rows.length + PAGE - 1).abortSignal(AbortSignal.timeout(TIMEOUT))
     if (error) throw new Error(error.message)
     rows.push(...(data ?? []))
     if ((data ?? []).length < PAGE) return rows
