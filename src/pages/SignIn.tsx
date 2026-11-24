@@ -185,7 +185,7 @@ function EnterCode({ pending, resend, resendFailed, onAnotherEmail }: EnterCodeP
         error={error !== undefined || resendFailed}
         helper={error ?? (resendFailed ? SEND_ERROR : undefined)}
       />
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-16">
         <Button type="submit" label="Continue" fullWidth disabled={!complete || busy} />
         <Button
           label="Resend email"

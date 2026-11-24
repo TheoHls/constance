@@ -10,19 +10,15 @@ type HabitCardProps = {
   doneDays: ReadonlySet<Day>
   onToggleToday: () => void
   onOpen: () => void
-  /** Soulevée pendant le réordonnancement. */
-  lifted?: boolean
 }
 
 /** Le bouton check est le jour d'aujourd'hui, les 14 Day dot sont les jours d'avant. */
-export function HabitCard({ label, color, today, doneDays, onToggleToday, onOpen, lifted = false }: HabitCardProps) {
+export function HabitCard({ label, color, today, doneDays, onToggleToday, onOpen }: HabitCardProps) {
   const checked = doneDays.has(today)
   return (
     <article
       style={accentStyle(color)}
-      className={`relative flex w-full flex-col gap-16 overflow-clip rounded-24 border bg-background-surface p-20 select-none [-webkit-touch-callout:none] ${
-        lifted ? 'border-border-focus' : 'border-border-default'
-      }`}
+      className="relative flex w-full flex-col gap-16 overflow-clip rounded-24 border border-border-default bg-background-surface p-20 select-none [-webkit-touch-callout:none]"
     >
       <button
         type="button"

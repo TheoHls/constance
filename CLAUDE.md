@@ -43,6 +43,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - L'app n'inscrit personne (`shouldCreateUser: false`), compte créé à la main. Sans variables Supabase : mode démo sans connexion.
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
 - 18 couleurs d'habitude : 17 teintes + Neutral/300, Yellow par défaut.
+- Boutons empilés : gap 16, jamais 8.
 - Large text input : ni compteur ni limite de caractères.
 - Segment actif `Background/selected`, texte inactif secondary : validé.
 - Auteur des commits : adresse noreply GitHub.
@@ -51,7 +52,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 ## Règles métier
 - Semaine lundi-dimanche, dates locales.
 - Home : le bouton check = aujourd'hui (optimiste), précédé de 14 Day dot pour les jours d'avant (hier à droite).
-- Home : appui long sur une carte puis glisser = réordonner (`194:8414`, `useReorder`). Roue Settings (`194:8260`) = Sign out (`195:8558`).
+- Home : appui long sur une carte puis glisser = réordonner (`194:8414`, `useReorder`), sans bordure sur la carte soulevée. Roue Settings (`194:8260`) = Sign out (`195:8558`).
 - Vider une note en l'éditant puis Save la supprime, sans confirmation (`196:9263`).
 - Bottom sheet : poignée glissée vers le bas = Cancel.
 - Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.

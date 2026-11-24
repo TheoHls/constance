@@ -130,5 +130,5 @@ export function useReorder(count: number, gap: number, onMove: (from: number, to
     }
   }
 
-  return { listRef: list, draggedIndex: drag?.from, itemProps }
+  return { listRef: list, itemProps }
 }

@@ -21,7 +21,7 @@ export function Home() {
   const [creating, setCreating] = useState(false)
   const [signingOut, setSigningOut] = useState(false)
   // gap-8
-  const { listRef, draggedIndex, itemProps } = useReorder(habits.length, 8, moveHabit)
+  const { listRef, itemProps } = useReorder(habits.length, 8, moveHabit)
 
   return (
     <main ref={listRef} className="min-h-dvh">
@@ -49,7 +49,6 @@ export function Home() {
                 doneDays={doneDays(habit.id)}
                 onToggleToday={() => toggleDay(habit.id, today)}
                 onOpen={() => navigate(`/habits/${habit.id}`)}
-                lifted={index === draggedIndex}
               />
             </div>
           ))}
