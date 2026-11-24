@@ -18,7 +18,7 @@ En ligne : https://theohls.github.io/constance/ (repo public TheoHls/constance, 
 ## Stack
 Vite + React + TypeScript strict, Tailwind 4, React Router, vite-plugin-pwa, Hugeicons, Supabase (phase 5). `base` = `/constance/`, `404.html` copié au build.
 Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`.
-Le dev server du navigateur intégré n'a pas accès au dossier Bureau : lancer depuis le shell. `.nvmrc` fixe Node (donc npm) à l'identique en local et en CI, sinon `npm ci` échoue sur le lockfile.
+`.nvmrc` fixe Node (donc npm) à l'identique en local et en CI, sinon `npm ci` échoue sur le lockfile.
 
 ## Structure
 - `src/styles/tokens.css` : primitives + alias. `src/styles/theme.css` : thème Tailwind et styles de texte (`type-h1`, `type-text-md`…).
@@ -35,6 +35,8 @@ Le dev server du navigateur intégré n'a pas accès au dossier Bureau : lancer 
 - Text-Icon/inverted = Neutral/950.
 - Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Le champ code reste à dessiner dans Figma (Check your email).
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
+- Large text input : ni compteur ni limite de caractères.
+- Segment actif `Background/selected`, texte inactif secondary : validé.
 - Auteur des commits : adresse noreply GitHub.
 - Web : pas de responsive, colonne mobile de 390 px centrée dès 640 px. Les overlays (Bottom sheet…) doivent rester dans cette colonne.
 
@@ -65,7 +67,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 
 ## Points ouverts
 - Quota Figma MCP (plan Starter) atteint : lire dans le navigateur intégré (panneau de droite, lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque, jamais d'édition). Relevé : `docs/figma-notes.md`.
-- Le Bureau est synchronisé par iCloud : `node_modules` s'y fige et Vite ne démarre plus. Copier les sources dans le scratchpad, `npm ci` et builder là, en attendant que le projet sorte d'iCloud.
+- Dans Figma, vérifier que Counter est bien retiré du Large text input ; `DESIGN_SYSTEM.md` le liste encore.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom, le nœud Figma utilise Text xl et Neutral/200 (primitive).
 - Icône check de Habit card : pas un Icon/*, tracé repris dans `docs/figma-notes.md`.
 - `Visuels/` (3 images) non commité, usage à vérifier en phase 4. Icône de l'app à fournir.

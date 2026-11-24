@@ -93,8 +93,6 @@ export function KitComponents() {
           placeholder="Why does this habit matter to you?"
           value={description}
           onChange={setDescription}
-          maxLength={200}
-          showCounter
         />
         <LargeTextInput label="Description" value={filledDescription} onChange={setFilledDescription} helper="Helper text" />
         <LargeTextInput label="Description" value={filledDescription} onChange={setFilledDescription} error helper="Helper text" />

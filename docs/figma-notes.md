@@ -30,7 +30,7 @@ S 8, M 12, L 16, « M + note » = M + Note icon. Done = Background/accent, Not d
 Helper : Text sm tertiary, danger en Error.
 
 ## Large text input (41:1490)
-Même cadre, p 16, champ 92 (valeur 57 min). Counter Text sm tertiary, sous la valeur (alignement non lu, à droite dans le code ; gap 0). Disabled 45 %.
+Même cadre, p 16, champ 92 (valeur 57 min). Pas de compteur ni de limite (décision utilisateur). Disabled 45 %.
 
 ## Picker column (47:2406)
 160 x 171, gap 8, centré. Label caption tertiary. Items h 44, rayon 12, Text md tertiary ; Item 1 opacité 50 %. Selected Background/elevated, Text-Icon/default.
