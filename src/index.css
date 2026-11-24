@@ -14,4 +14,12 @@
     background: var(--background-default);
     color: var(--text-icon-default);
   }
+
+  /* Web : même format que sur mobile (frame Figma 390), centré. */
+  @media (width >= 640px) {
+    #root {
+      max-width: 390px;
+      margin-inline: auto;
+    }
+  }
 }

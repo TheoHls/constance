@@ -17,7 +17,7 @@ En ligne : https://theohls.github.io/constance/ (repo public TheoHls/constance, 
 ## Stack
 Vite + React + TypeScript strict, Tailwind 4, React Router, vite-plugin-pwa, Hugeicons, Supabase (phase 5). `base` = `/constance/`, `404.html` copié au build.
 Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`.
-Le dev server du navigateur intégré n'a pas accès au dossier Bureau : lancer depuis le shell. `npm ci` doit passer avant de pousser (lockfile).
+Le dev server du navigateur intégré n'a pas accès au dossier Bureau : lancer depuis le shell. `.nvmrc` fixe Node (donc npm) à l'identique en local et en CI, sinon `npm ci` échoue sur le lockfile.
 
 ## Structure
 - `src/styles/tokens.css` : primitives + alias. `src/styles/theme.css` : thème Tailwind et styles de texte (`type-h1`, `type-text-md`…).
@@ -34,6 +34,7 @@ Le dev server du navigateur intégré n'a pas accès au dossier Bureau : lancer 
 - Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Le champ code reste à dessiner dans Figma (Check your email).
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
 - Auteur des commits : adresse noreply GitHub.
+- Web : pas de responsive, colonne mobile de 390 px centrée dès 640 px. Les overlays (Bottom sheet…) doivent rester dans cette colonne.
 
 ## Règles métier
 - Semaine lundi-dimanche, dates locales.
