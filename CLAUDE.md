@@ -84,6 +84,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [ ] 7. Finitions PWA : icône, encoche (bandeau noir dans ScreenHeader, sheets sous l'encoche), clavier (`useKeyboard` dans BottomSheet), portrait : faits. Reste le test sur un vrai iPhone
 
 ## Points ouverts
+- **REPRISE : ne rien pousser avant d'avoir lancé `supabase/migrations/0002_quit_habits.sql` dans Supabase** (sinon l'app en ligne ne charge plus les habitudes). Habitudes Quit codées, testées en local, commitées mais pas poussées. Ensuite : push, vérifier en ligne, test iPhone, clore la phase 7, retirer cette ligne.
 - Figma dans le navigateur intégré : lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque. Relevé : `docs/figma-notes.md`.
 - Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias, aussi pour le titre de Add note).
