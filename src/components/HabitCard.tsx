@@ -1,4 +1,4 @@
-import { lastDays, type Day } from '../lib/dates'
+import { addDays, lastDays, type Day } from '../lib/dates'
 import { accentStyle, type HabitColor } from '../lib/habitColors'
 import { DayDot } from './DayDot'
 
@@ -11,7 +11,7 @@ type HabitCardProps = {
   onOpen: () => void
 }
 
-/** Checked / Not checked dépend du jour d'aujourd'hui. */
+/** Le bouton check est le jour d'aujourd'hui, les 14 Day dot sont les jours d'avant. */
 export function HabitCard({ label, color, today, doneDays, onToggleToday, onOpen }: HabitCardProps) {
   const checked = doneDays.has(today)
   return (
@@ -27,7 +27,7 @@ export function HabitCard({ label, color, today, doneDays, onToggleToday, onOpen
         <span className="block truncate">{label}</span>
       </button>
       <div className="flex items-center justify-end gap-[7px]">
-        {lastDays(today, 14).map((day) => (
+        {lastDays(addDays(today, -1), 14).map((day) => (
           <DayDot key={day} size="L" habit={doneDays.has(day) ? 'done' : 'not done'} />
         ))}
         <button

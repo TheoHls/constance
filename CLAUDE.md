@@ -43,7 +43,8 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 
 ## Règles métier
 - Semaine lundi-dimanche, dates locales.
-- Home : 14 derniers jours (récent à droite), check d'aujourd'hui optimiste.
+- Home : le bouton check = aujourd'hui (optimiste), précédé de 14 Day dot pour les jours d'avant (hier à droite).
+- Bottom sheet : poignée glissée vers le bas = Cancel.
 - Heatmap : 26 semaines défilantes, anneau Today. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
 - Calendar : choix du mois, rattrapage d'un jour passé, appui long = ajouter une note.
 - Note = un jour + un texte, liée à une habitude, Done/Not done selon le check du jour.
@@ -74,5 +75,5 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - `Visuels/` (3 images) non commité, usage à vérifier en phase 4. Icône de l'app à fournir.
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
 - Neutral/300 apparaît dans Edit habit : 17 teintes par défaut, à revoir en phase 4.
-- Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, « Today » et « Yesterday ».
+- Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, glissement de fermeture 80 px ou geste rapide, « Today » et « Yesterday ».
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
