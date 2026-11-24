@@ -7,7 +7,8 @@ En ligne : https://theohls.github.io/constance/ (repo public TheoHls/constance, 
 
 ## Règles
 - Figma est la source de vérité : fileKey `Fd7UWF1snuqUVdf2ocQJco`. Pages : Ui-kit `41:827`, Design `47:2414`, Moodboard (à ignorer).
-- Figma en LECTURE SEULE, avec get_variable_defs, get_design_context, get_screenshot, get_metadata. Ne jamais modifier le fichier.
+- `DESIGN_SYSTEM.md` = référence globale (tokens, styles, composants, écrans). En cas d'écart, Figma gagne.
+- Figma en LECTURE SEULE : lire avec le connecteur au moment de construire (get_design_context + get_screenshot sur le nœud). Ne jamais modifier le fichier. Info manquante ou quota atteint : demander.
 - N'inventer aucune valeur. S'il manque un état, une valeur ou un écran : s'arrêter et demander.
 - Lire les descriptions des composants Figma. Un composant React par composant Figma, mêmes noms, variantes = props typées.
 - Les composants n'utilisent que les alias, sauf la palette d'habitude. Pas d'hexa en dur.
@@ -29,8 +30,8 @@ Le dev server du navigateur intégré n'a pas accès au dossier Bureau : lancer 
 - Accent = teinte /300 (Yellow /200), on-accent = /950. Primary (blanc) jamais lié à une habitude, Accent oui.
 - Typo selon Figma : titres Plus Jakarta Sans SemiBold, textes Inter Regular et Medium (le brief disait Inter Regular et Semi Bold).
 - Letter-spacing des titres en %, line-height 100 = Auto.
-- Palette complète reprise de Tailwind 4 : 26 des 27 valeurs lues dans Figma sont identiques, Violet/300 vient de Figma.
-- Text-Icon/inverted = #0a0a0a (Ui-kit). Les écrans renvoient aussi #fafafa, origine à confirmer.
+- Tokens alignés sur `DESIGN_SYSTEM.md`.
+- Text-Icon/inverted = Neutral/950.
 - Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Le champ code reste à dessiner dans Figma (Check your email).
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
 - Auteur des commits : adresse noreply GitHub.
@@ -62,7 +63,8 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
 
 ## Points ouverts
-- Quota d'appels Figma (plan Starter) atteint pendant la phase 1 : descriptions des variables, espacements et rayons non utilisés dans les nœuds lus, non récupérés.
+- Quota d'appels Figma (plan Starter) atteint, encore bloqué au 2026-11-24 : phase 2 en attente. Valeurs déjà lues : `docs/figma-notes.md`.
+- Habit card : DESIGN_SYSTEM dit Text md pour le nom, le nœud Figma utilise Text xl et Neutral/200 (primitive).
 - L'icône check de Habit card n'est pas un Icon/* dans Figma.
 - `Visuels/` (3 images) non commité, usage à vérifier en phase 4. Icône de l'app à fournir.
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.

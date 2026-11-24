@@ -75,7 +75,7 @@
   --green-400: #05df72;
   --green-500: #00c950;
   --green-600: #00a63e;
-  --green-700: #008236;
+  --green-700: #008235;
   --green-800: #016630;
   --green-900: #0d542b;
   --green-950: #032e15;
@@ -108,7 +108,7 @@
   --cyan-100: #cefafe;
   --cyan-200: #a2f4fd;
   --cyan-300: #53eafd;
-  --cyan-400: #00d3f2;
+  --cyan-400: #00d3f3;
   --cyan-500: #00b8db;
   --cyan-600: #0092b8;
   --cyan-700: #007595;
@@ -235,10 +235,18 @@
   --space-24: 24px;
   --space-32: 32px;
   --space-40: 40px;
+  --space-80: 80px;
+  --space-120: 120px;
 
+  --rounded-0: 0px;
+  --rounded-2: 2px;
+  --rounded-4: 4px;
+  --rounded-6: 6px;
+  --rounded-8: 8px;
   --rounded-12: 12px;
   --rounded-16: 16px;
   --rounded-24: 24px;
+  --rounded-32: 32px;
   --rounded-40: 40px;
   --rounded-full: 9999px;
 
