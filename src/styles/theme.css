@@ -1,0 +1,124 @@
+/* Thème Tailwind : uniquement les variables Figma, les valeurs par défaut sont retirées. */
+@theme inline {
+  --color-*: initial;
+  --spacing-*: initial;
+  --spacing: initial;
+  --radius-*: initial;
+  --text-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-background-default: var(--background-default);
+  --color-background-surface: var(--background-surface);
+  --color-background-elevated: var(--background-elevated);
+  --color-background-selected: var(--background-selected);
+  --color-background-inverted: var(--background-inverted);
+  --color-background-overlay: var(--background-overlay);
+  --color-background-accent: var(--accent);
+  --color-text-icon-default: var(--text-icon-default);
+  --color-text-icon-secondary: var(--text-icon-secondary);
+  --color-text-icon-tertiary: var(--text-icon-tertiary);
+  --color-text-icon-inverted: var(--text-icon-inverted);
+  --color-text-icon-danger: var(--text-icon-danger);
+  --color-text-icon-accent: var(--accent);
+  --color-text-icon-on-accent: var(--accent-on);
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+  --color-border-focus: var(--border-focus);
+  --color-border-danger: var(--border-danger);
+
+  --spacing-0: var(--space-0);
+  --spacing-2: var(--space-2);
+  --spacing-4: var(--space-4);
+  --spacing-6: var(--space-6);
+  --spacing-8: var(--space-8);
+  --spacing-12: var(--space-12);
+  --spacing-16: var(--space-16);
+  --spacing-20: var(--space-20);
+  --spacing-24: var(--space-24);
+  --spacing-32: var(--space-32);
+  --spacing-40: var(--space-40);
+
+  --radius-12: var(--rounded-12);
+  --radius-16: var(--rounded-16);
+  --radius-24: var(--rounded-24);
+  --radius-40: var(--rounded-40);
+  --radius-full: var(--rounded-full);
+
+}
+
+/* Styles de texte Figma : line-height 100 = Auto, letter-spacing en %. */
+@utility type-h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.04em;
+}
+
+@utility type-h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.02em;
+}
+
+@utility type-h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.01em;
+}
+
+@utility type-text-xl {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0;
+}
+
+@utility type-text-lg {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0;
+}
+
+@utility type-text-md {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+}
+
+@utility type-text-sm {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+}
+
+@utility type-text-xs {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+}
+
+@utility type-caption {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+}
+

@@ -1,1 +1,17 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import './styles/tokens.css';
+@import './styles/theme.css';
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--background-default);
+    color: var(--text-icon-default);
+  }
+}
