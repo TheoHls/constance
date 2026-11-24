@@ -21,7 +21,7 @@ const YEARS = 10
 
 export function HabitDetail() {
   const { id = '' } = useParams()
-  const { habits, doneDays, habitNotes } = useStore()
+  const { habits, doneDays, habitNotes, toggleDay } = useStore()
   const today = useToday()
   const navigate = useNavigate()
   const back = useBack('/')
@@ -58,6 +58,7 @@ export function HabitDetail() {
             today={today}
             doneDays={done}
             noteDays={new Set(notes.map((note) => note.day))}
+            onPressDay={(day) => toggleDay(id, day)}
             onHoldDay={(day) => setSheet({ kind: 'note', day })}
           />
           <div className="flex gap-8">

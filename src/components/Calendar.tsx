@@ -42,7 +42,7 @@ export function Calendar({ year, month, today, doneDays, noteDays, showHabitDone
               showNote={noteDays?.has(day)}
               showHabitDone={showHabitDone}
               disabled={day > today}
-              onHold={() => onHoldDay?.(day)}
+              onHold={onHoldDay && (() => onHoldDay(day))}
               onPress={() => onPressDay?.(day)}
             />
           ))}

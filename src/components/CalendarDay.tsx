@@ -21,6 +21,8 @@ type CalendarDayProps = {
 export function CalendarDay({ dayNumber, label, day, habit, showNote = false, showHabitDone = true, disabled, onHold, onPress }: CalendarDayProps) {
   const timer = useRef<number>(undefined)
   const start = useRef({ x: 0, y: 0 })
+  /** Un appui long ne compte pas aussi comme un appui. */
+  const held = useRef(false)
   const done = habit === 'done'
   const outside = day === 'prev/next month'
 
@@ -42,8 +44,13 @@ export function CalendarDay({ dayNumber, label, day, habit, showNote = false, sh
       onPointerDown={(event) => {
         if (event.button !== 0) return
         cancel()
+        held.current = false
         start.current = { x: event.clientX, y: event.clientY }
-        timer.current = window.setTimeout(() => onHold?.(), HOLD_MS)
+        timer.current = window.setTimeout(() => {
+          if (!onHold) return
+          held.current = true
+          onHold()
+        }, HOLD_MS)
       }}
       onPointerMove={(event) => {
         if (Math.hypot(event.clientX - start.current.x, event.clientY - start.current.y) > MOVE_TOLERANCE) cancel()
@@ -52,9 +59,16 @@ export function CalendarDay({ dayNumber, label, day, habit, showNote = false, sh
       onPointerLeave={cancel}
       onPointerCancel={cancel}
       onContextMenu={(event) => event.preventDefault()}
-      onClick={onPress}
+      onClick={() => {
+        if (!held.current) onPress?.()
+        held.current = false
+      }}
       onKeyDown={(event) => {
-        if (event.key === 'Enter' && !event.repeat) onHold?.()
+        held.current = false
+        if (event.key !== 'Enter' || !onHold) return
+        // Sinon Entrée déclenche aussi l'appui. Espace reste l'appui.
+        event.preventDefault()
+        if (!event.repeat) onHold()
       }}
       className={`flex min-w-0 flex-1 flex-col items-center gap-4 overflow-clip rounded-12 p-6 select-none [-webkit-touch-callout:none] focus-ring ${
         done ? 'bg-background-accent/20' : 'bg-background-surface'

@@ -56,8 +56,8 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Vider une note en l'éditant puis Save la supprime, sans confirmation (`196:9263`).
 - Bottom sheet : poignée glissée vers le bas = Cancel. `overflow-clip` sur le dialog, sinon le focus le fait défiler à l'ouverture.
 - Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
-- Rattrapage d'un jour passé : sheet Add note, Pick a date puis bouton check.
-- Calendar : choix du mois, appui long = ajouter une note.
+- Rattrapage d'un jour passé : appui dans le Calendar, ou sheet Add note, Pick a date puis bouton check.
+- Calendar (Habit detail) : choix du mois, appui = cocher / décocher le jour (jours à venir inactifs), appui long = ajouter une note.
 - Note = un jour + un texte, liée à une habitude, Done/Not done selon le check du jour.
 - Create : Save désactivé si nom vide. Edit : quitter avec changements ouvre Unsaved changes. Delete habit supprime checks et notes.
 
