@@ -76,7 +76,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 3. Composants composés
 - [x] 4. Écrans, données factices
 - [x] 5. Supabase, RLS, auth : en ligne, envoi par Gmail dédié + mot de passe d'application, connexion réelle testée par l'utilisateur (`docs/supabase.md`)
-- [ ] 6. Vraies données : branchées et testées sur un faux serveur local (créer, modifier, cocher, noter, réordonner, supprimer, erreur). À valider par l'utilisateur sur le vrai projet
+- [x] 6. Vraies données : validé par l'utilisateur sur le vrai projet
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
 
 ## Points ouverts
