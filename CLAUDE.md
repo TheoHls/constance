@@ -27,6 +27,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Classes : `bg-background-*`, `text-text-icon-*`, `border-border-*`, espacements et rayons nommés comme dans Figma (`p-16` = 16 px, `rounded-24`).
 - `src/lib/dates.ts` : dates locales `YYYY-MM-DD` (type `Day`), semaines, formats.
 - `src/lib/habitColors.ts` : `accentStyle(color)` pose `--accent` et `--accent-on` sur le conteneur de l'habitude.
+- `src/lib/autoUpdate.ts` : recharge l'app quand une nouvelle version est prête (hors sheet ouverte ou saisie). Pour tester en ligne : vérifier l'URL du script chargé, le service worker peut servir l'ancienne version.
 - `src/components/` : un composant par composant Figma. États Empty/Filled/Focus des inputs = valeur + focus.
 - `src/pages/` : Home, HabitDetail, Notes, SignIn + sheets (HabitSheets, NoteSheet, ChooseMonthSheet). Routes `/`, `/habits/:id`, `/habits/:id/notes`, `/sign-in` (`?expired`), `/kit`.
 - `src/lib/supabase.ts`, `src/data/auth.tsx` : client, session, `RequireAuth`. SQL : `supabase/migrations/`.
