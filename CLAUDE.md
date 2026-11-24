@@ -23,6 +23,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 ## Structure
 - `src/styles/tokens.css` : primitives + alias. `src/styles/theme.css` : thème Tailwind et styles de texte (`type-h1`, `type-text-md`…).
 - Classes : `bg-background-*`, `text-text-icon-*`, `border-border-*`, espacements et rayons nommés comme dans Figma (`p-16` = 16 px, `rounded-24`).
+- `src/lib/dates.ts` : dates locales `YYYY-MM-DD` (type `Day`), semaines, formats.
 - `src/lib/habitColors.ts` : `accentStyle(color)` pose `--accent` et `--accent-on` sur le conteneur de l'habitude.
 - `src/components/` : un composant par composant Figma. États Empty/Filled/Focus des inputs = valeur + focus.
 - `src/components/Icon.tsx` : icônes Icon/*, trait 2 px à toutes les tailles. `src/pages/Kit.tsx` : page `/kit`.
@@ -43,7 +44,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 ## Règles métier
 - Semaine lundi-dimanche, dates locales.
 - Home : 14 derniers jours (récent à droite), check d'aujourd'hui optimiste.
-- Heatmap : 26 semaines, anneau Today. Écran Notes : Day dot « M + note » les jours avec note.
+- Heatmap : 26 semaines défilantes, anneau Today. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
 - Calendar : choix du mois, rattrapage d'un jour passé, appui long = ajouter une note.
 - Note = un jour + un texte, liée à une habitude, Done/Not done selon le check du jour.
 - Create : Save désactivé si nom vide. Edit : quitter avec changements ouvre Unsaved changes. Delete habit supprime checks et notes.
@@ -58,8 +59,8 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 ## Phases
 - [x] 0. Projet, PWA, GitHub Pages
 - [x] 1. Tokens, typo, icônes
-- [ ] 2. Composants de base + /kit : codé, à valider
-- [ ] 3. Composants composés
+- [x] 2. Composants de base + /kit
+- [ ] 3. Composants composés : codé, à valider
 - [ ] 4. Écrans, données factices
 - [ ] 5. Supabase, RLS, auth
 - [ ] 6. Vraies données
@@ -68,9 +69,10 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 ## Points ouverts
 - Quota Figma MCP (plan Starter) atteint : lire dans le navigateur intégré (panneau de droite, lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque, jamais d'édition). Relevé : `docs/figma-notes.md`.
 - Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
-- Habit card : DESIGN_SYSTEM dit Text md pour le nom, le nœud Figma utilise Text xl et Neutral/200 (primitive).
+- Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias).
 - Icône check de Habit card : pas un Icon/*, tracé repris dans `docs/figma-notes.md`.
 - `Visuels/` (3 images) non commité, usage à vérifier en phase 4. Icône de l'app à fournir.
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
 - Neutral/300 apparaît dans Edit habit : 17 teintes par défaut, à revoir en phase 4.
+- Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, « Today » et « Yesterday ».
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.

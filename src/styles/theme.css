@@ -144,6 +144,23 @@
     0 0 0 2px var(--border-focus);
 }
 
+@utility current-day-ring {
+  box-shadow: inset 0 0 0 2px var(--border-focus);
+}
+
+/* Durée absente de Figma. */
+@keyframes sheet-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@utility sheet-slide-up {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: sheet-slide-up 250ms ease-out;
+  }
+}
+
 /* Focus clavier uniquement, absent de Figma : contour Border/focus. */
 @utility focus-ring {
   &:focus-visible {

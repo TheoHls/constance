@@ -15,6 +15,10 @@
     color: var(--text-icon-default);
   }
 
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
   /* Web : même format que sur mobile (frame Figma 390), centré. */
   @media (width >= 640px) {
     #root {

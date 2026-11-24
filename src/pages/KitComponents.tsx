@@ -9,6 +9,7 @@ import { PickerColumn } from '../components/PickerColumn'
 import { SegmentedControl, type Segment } from '../components/SegmentedControl'
 import { TextInput } from '../components/TextInput'
 import { accentStyle, habitColors, type HabitColor } from '../lib/habitColors'
+import { KitComposed } from './KitComposed'
 
 const kinds: ButtonKind[] = ['primary', 'secondary', 'ghost', 'accent', 'danger']
 const sizes: ButtonSize[] = ['L', 'M', 'S']
@@ -31,6 +32,8 @@ export function KitComponents() {
 
   return (
     <div style={accentStyle(color)} className="flex flex-col gap-40">
+      <KitComposed color={color} />
+
       <section className="flex flex-col gap-12">
         <h2 className="type-h2">Color dot</h2>
         <div className="flex flex-wrap gap-12">

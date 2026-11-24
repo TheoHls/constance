@@ -37,3 +37,21 @@ Même cadre, p 16, champ 92 (valeur 57 min). Pas de compteur ni de limite (déci
 
 ## Note icon (86:5831)
 Rectangles 6x1 (y 0), 6x1 (y 2), 4x1 (y 4). Light Background/inverted, Dark Background/surface.
+
+## Heatmap (90:6586)
+358 x 177, p 16, gap 8, rayon 24, Background/surface, bordure Border/default. Mois : caption tertiary, h 15, réparti au hasard dans Figma (ne pas suivre, voir CLAUDE.md). Jours : Text xs tertiary, 26 x 120, répartis. Gap 4 vers la grille. Grille : semaines 12 x 120, gap 6, alignée à droite, padding droit 2, débordement masqué, dégradé 24 x 120 à gauche.
+
+## Calendar day (48:14991)
+Largeur Fill, h 54, p 6, gap 4, rayon 12. Trois rangées : note 6 px (6 x 5 à droite, Text-Icon/default), numéro Text lg 22, point 6 px. Not done : Background/surface, texte blanc ; Prev/Next texte tertiary. Done : accent à 20 %, texte et point accent ; Prev/Next texte à 50 %. Current : ombre intérieure blanche spread 2.
+
+## Calendar (86:6314)
+324 x 383, gap 6. Jours de semaine Text xs secondary centrés, gap 4, 8 sous la rangée. Semaines gap 6. Les jours à venir utilisent Prev/Next month. Pied de calendrier hors du composant (écran).
+
+## Note item (47:2405)
+358 x 85, px 16, py 12, gap 8, rayon 16, Background/surface, bordure 1 Border/default (Selected Border/focus). Day dot M, date et date relative Text sm secondary, gap 8. Edit : Button S Secondary. Note Text md default.
+
+## Notes card (90:6589)
+358, p 16, gap 12, rayon 24, Background/surface, bordure Border/default. Titre H3 + nombre H3 tertiary, gap 8, puis All notes (S Secondary, Chevron right). Empty : titre H3, Add a note (S Secondary, Add) à droite.
+
+## Bottom sheet (47:2113)
+390, rayon 40, Background/surface, bordure 1 Border/strong. Handle 40 x 5 Border/strong, p 16 autour. Contenu en dessous sans padding.
