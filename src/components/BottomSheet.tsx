@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from 'react'
+import { useKeyboard } from '../lib/useKeyboard'
 
 const CLOSE_DISTANCE = 80
 /** px par ms */
@@ -20,6 +21,7 @@ export function BottomSheet({ label, style: accent, onClose, children }: BottomS
   const dialog = useRef<HTMLDialogElement>(null)
   const drag = useRef<{ y: number; lastY: number; lastTime: number; velocity: number }>(undefined)
   const [offset, setOffset] = useState(0)
+  const keyboard = useKeyboard()
   const [dragging, setDragging] = useState(false)
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export function BottomSheet({ label, style: accent, onClose, children }: BottomS
     <dialog
       ref={dialog}
       tabIndex={-1}
-      style={accent}
+      style={keyboard ? { ...accent, marginTop: keyboard.top, height: keyboard.height } : accent}
       aria-label={label}
       onCancel={(event) => {
         event.preventDefault()
@@ -73,7 +75,7 @@ export function BottomSheet({ label, style: accent, onClose, children }: BottomS
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose()
       }}
-      className="mx-auto flex h-dvh max-h-none w-full max-w-none flex-col overflow-clip justify-end bg-background-overlay p-8 pb-40 backdrop-blur-[8px] text-text-icon-default outline-none backdrop:bg-transparent sm:max-w-[390px]"
+      className={`mx-auto flex h-dvh max-h-none w-full max-w-none flex-col overflow-clip justify-end bg-background-overlay px-8 pt-[max(var(--spacing-8),env(safe-area-inset-top))] backdrop-blur-[8px] text-text-icon-default outline-none backdrop:bg-transparent sm:max-w-[390px] ${keyboard ? 'pb-8' : 'pb-40'}`}
     >
       <div
         style={offset > 0 ? { transform: `translateY(${offset}px)` } : undefined}

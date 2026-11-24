@@ -77,7 +77,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 4. Écrans, données factices
 - [x] 5. Supabase, RLS, auth : en ligne, envoi par Gmail dédié + mot de passe d'application, connexion réelle testée par l'utilisateur (`docs/supabase.md`)
 - [x] 6. Vraies données : validé par l'utilisateur sur le vrai projet
-- [ ] 7. Finitions PWA : icône faite. Reste safe areas, clavier, test iPhone
+- [ ] 7. Finitions PWA : icône, encoche (bandeau noir dans ScreenHeader, sheets sous l'encoche), clavier (`useKeyboard` dans BottomSheet), portrait : faits. Reste le test sur un vrai iPhone
 
 ## Points ouverts
 - Figma dans le navigateur intégré : lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque. Relevé : `docs/figma-notes.md`.
@@ -90,4 +90,4 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
 - Plusieurs notes possibles le même jour. Chargement et erreurs : codés depuis Home · Loading `219:8655`, Home · Load error `219:8854`, Home · Save error `219:8895`, Notes · Save error `219:9093`. Loading n'est dessiné que pour Home (écran noir ailleurs). Pas de hors ligne.
 - Text-Icon/inverted est lié au H1 de Home et Habit detail dans Figma, mais rendu blanc : le code utilise default.
-- Phase 7 : clavier iOS devant les sheets, à tester.
+- Phase 7 : clavier testé en simulant visualViewport seulement (pas de Xcode), à confirmer sur iPhone.

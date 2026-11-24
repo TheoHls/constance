@@ -16,6 +16,7 @@ export default defineConfig({
         name: 'Constance',
         short_name: 'Constance',
         display: 'standalone',
+        orientation: 'portrait',
         theme_color: '#000000',
         background_color: '#000000',
         icons: [
