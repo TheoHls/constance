@@ -26,6 +26,7 @@ export function Heatmap({ type = 'default', today, doneDays, noteDays }: Heatmap
   const weeks = lastWeeks(today, WEEKS)
   const labels = monthLabels(weeks)
   const [atStart, setAtStart] = useState(false)
+  const [atEnd, setAtEnd] = useState(true)
   const scroller = useRef<HTMLDivElement>(null)
 
   // Les semaines récentes sont à droite.
@@ -40,16 +41,22 @@ export function Heatmap({ type = 'default', today, doneDays, noteDays }: Heatmap
           <span key={weekday}>{weekday}</span>
         ))}
       </div>
-      <div className="relative min-w-0 flex-1">
+      {/* Va jusqu'au bord droit de la carte, le padding défile avec la grille. */}
+      <div className="relative -mr-16 min-w-0 flex-1">
         <div
           ref={scroller}
           tabIndex={0}
-          onScroll={(event) => setAtStart(event.currentTarget.scrollLeft <= 0)}
+          onScroll={(event) => {
+            const { scrollLeft, scrollWidth, clientWidth } = event.currentTarget
+            setAtStart(scrollLeft <= 0)
+            // 1 px de tolérance : scrollLeft peut être fractionnaire.
+            setAtEnd(scrollLeft + clientWidth >= scrollWidth - 1)
+          }}
           role="img"
           aria-label="Last 26 weeks"
-          className="no-scrollbar -mb-2 flex overflow-x-auto overscroll-x-contain pr-2 pb-2 focus-ring"
+          className="no-scrollbar -mb-2 flex overflow-x-auto overscroll-x-contain pb-2 focus-ring"
         >
-          <div className="ml-auto flex shrink-0 gap-6">
+          <div className="ml-auto flex shrink-0 gap-6 pr-[18px]">
             {weeks.map((week, index) => (
               <div key={week[0]} className="relative flex shrink-0 flex-col gap-6 pt-[23px]">
                 {labels[index] && (
@@ -75,6 +82,9 @@ export function Heatmap({ type = 'default', today, doneDays, noteDays }: Heatmap
         </div>
         {!atStart && (
           <div className="pointer-events-none absolute inset-y-0 left-0 w-[24px] bg-linear-to-r from-background-surface to-transparent" />
+        )}
+        {!atEnd && (
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-[24px] bg-linear-to-l from-background-surface to-transparent" />
         )}
       </div>
     </div>

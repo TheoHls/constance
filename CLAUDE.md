@@ -45,7 +45,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Semaine lundi-dimanche, dates locales.
 - Home : le bouton check = aujourd'hui (optimiste), précédé de 14 Day dot pour les jours d'avant (hier à droite).
 - Bottom sheet : poignée glissée vers le bas = Cancel.
-- Heatmap : 26 semaines défilantes, anneau Today. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
+- Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
 - Calendar : choix du mois, rattrapage d'un jour passé, appui long = ajouter une note.
 - Note = un jour + un texte, liée à une habitude, Done/Not done selon le check du jour.
 - Create : Save désactivé si nom vide. Edit : quitter avec changements ouvre Unsaved changes. Delete habit supprime checks et notes.
