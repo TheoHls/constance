@@ -131,3 +131,31 @@
   text-transform: uppercase;
 }
 
+/* Effets Figma */
+@utility color-dot-ring {
+  box-shadow:
+    0 0 0 2px var(--background-surface),
+    0 0 0 4px var(--accent);
+}
+
+@utility today-ring {
+  box-shadow:
+    0 0 0 1px var(--background-surface),
+    0 0 0 2px var(--border-focus);
+}
+
+/* Focus clavier uniquement, absent de Figma : contour Border/focus. */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

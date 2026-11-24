@@ -28,7 +28,7 @@ export const icons = {
 
 export type IconName = keyof typeof icons
 
-/** Icône 24 px décorative, colorée par le parent avec text-text-icon-*. */
-export function Icon({ name }: { name: IconName }) {
-  return <HugeiconsIcon icon={icons[name]} size={24} strokeWidth={2} aria-hidden />
+/** Icône décorative, colorée par le parent avec text-text-icon-*. Le trait reste à 2 px à toutes les tailles. */
+export function Icon({ name, size = 24 }: { name: IconName; size?: number }) {
+  return <HugeiconsIcon icon={icons[name]} size={size} strokeWidth={2} absoluteStrokeWidth aria-hidden />
 }

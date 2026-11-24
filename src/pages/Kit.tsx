@@ -1,5 +1,6 @@
 import { Icon, icons, type IconName } from '../components/Icon'
 import { accentStyle, habitColors } from '../lib/habitColors'
+import { KitComponents } from './KitComponents'
 
 const textStyles = [
   ['H1', 'type-h1'],
@@ -41,6 +42,8 @@ export function Kit() {
   return (
     <main className="flex flex-col gap-40 p-16">
       <h1 className="type-h1">Kit</h1>
+
+      <KitComponents />
 
       <section className="flex flex-col gap-12">
         <h2 className="type-h2">Icons</h2>

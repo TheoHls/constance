@@ -24,7 +24,8 @@ Le dev server du navigateur intégré n'a pas accès au dossier Bureau : lancer 
 - `src/styles/tokens.css` : primitives + alias. `src/styles/theme.css` : thème Tailwind et styles de texte (`type-h1`, `type-text-md`…).
 - Classes : `bg-background-*`, `text-text-icon-*`, `border-border-*`, espacements et rayons nommés comme dans Figma (`p-16` = 16 px, `rounded-24`).
 - `src/lib/habitColors.ts` : `accentStyle(color)` pose `--accent` et `--accent-on` sur le conteneur de l'habitude.
-- `src/components/Icon.tsx` : icônes Icon/*, 24 px, trait 2. `src/pages/Kit.tsx` : page `/kit`.
+- `src/components/` : un composant par composant Figma. États Empty/Filled/Focus des inputs = valeur + focus.
+- `src/components/Icon.tsx` : icônes Icon/*, trait 2 px à toutes les tailles. `src/pages/Kit.tsx` : page `/kit`.
 
 ## Décisions
 - Accent = teinte /300 (Yellow /200), on-accent = /950. Primary (blanc) jamais lié à une habitude, Accent oui.
@@ -54,8 +55,8 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 
 ## Phases
 - [x] 0. Projet, PWA, GitHub Pages
-- [ ] 1. Tokens, typo, icônes : codé, à valider
-- [ ] 2. Composants de base + /kit
+- [x] 1. Tokens, typo, icônes
+- [ ] 2. Composants de base + /kit : codé, à valider
 - [ ] 3. Composants composés
 - [ ] 4. Écrans, données factices
 - [ ] 5. Supabase, RLS, auth
@@ -63,9 +64,11 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
 
 ## Points ouverts
-- Quota d'appels Figma (plan Starter) atteint, encore bloqué au 2026-11-24 : phase 2 en attente. Valeurs déjà lues : `docs/figma-notes.md`.
+- Quota Figma MCP (plan Starter) atteint : lire dans le navigateur intégré (panneau de droite, lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque, jamais d'édition). Relevé : `docs/figma-notes.md`.
+- Le Bureau est synchronisé par iCloud : `node_modules` s'y fige et Vite ne démarre plus. Copier les sources dans le scratchpad, `npm ci` et builder là, en attendant que le projet sorte d'iCloud.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom, le nœud Figma utilise Text xl et Neutral/200 (primitive).
-- L'icône check de Habit card n'est pas un Icon/* dans Figma.
+- Icône check de Habit card : pas un Icon/*, tracé repris dans `docs/figma-notes.md`.
 - `Visuels/` (3 images) non commité, usage à vérifier en phase 4. Icône de l'app à fournir.
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
-- Neutral/300 est utilisé dans l'écran Edit habit : 18e couleur d'habitude ou non, à confirmer (aujourd'hui 17 teintes).
+- Neutral/300 apparaît dans Edit habit : 17 teintes par défaut, à revoir en phase 4.
+- `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
