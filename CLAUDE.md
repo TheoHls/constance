@@ -67,7 +67,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 
 ## Points ouverts
 - Quota Figma MCP (plan Starter) atteint : lire dans le navigateur intégré (panneau de droite, lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque, jamais d'édition). Relevé : `docs/figma-notes.md`.
-- Dans Figma, vérifier que Counter est bien retiré du Large text input ; `DESIGN_SYSTEM.md` le liste encore.
+- Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom, le nœud Figma utilise Text xl et Neutral/200 (primitive).
 - Icône check de Habit card : pas un Icon/*, tracé repris dans `docs/figma-notes.md`.
 - `Visuels/` (3 images) non commité, usage à vérifier en phase 4. Icône de l'app à fournir.
