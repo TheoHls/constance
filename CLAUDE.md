@@ -8,7 +8,7 @@ En ligne : https://theohls.github.io/constance/ (repo public TheoHls/constance, 
 ## Règles
 - Figma est la source de vérité : fileKey `Fd7UWF1snuqUVdf2ocQJco`. Pages : Ui-kit `41:827`, Design `47:2414`, Moodboard (à ignorer).
 - `DESIGN_SYSTEM.md` = référence globale (tokens, styles, composants, écrans). En cas d'écart, Figma gagne.
-- Figma en LECTURE SEULE, sauf demande explicite (alors sur des copies, sans toucher aux écrans existants) : lire avec le connecteur au moment de construire (get_design_context + get_screenshot sur le nœud). Ne jamais modifier le fichier. Info manquante ou quota atteint : demander.
+- Figma : passer par le navigateur intégré, pas par le connecteur MCP (demande de l'utilisateur). Lecture seule, sauf demande explicite : alors édition dans le navigateur, sur des copies, sans toucher aux écrans existants. Info manquante : demander.
 - Gouvernance Figma = l'utilisateur. Tout état, prop ou variante visuelle existe d'abord sur le composant Figma (Ui-kit), avec son accord, avant d'être codé. Un override sur un écran ou un écran validé ne suffit pas : demander avant, jamais après. Signaler tout écart code / Figma.
 - Ne pas envoyer de captures Figma : l'utilisateur vérifie dans Figma.
 - N'inventer aucune valeur. S'il manque un état, une valeur ou un écran : s'arrêter et demander.
@@ -80,7 +80,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
 
 ## Points ouverts
-- Quota Figma MCP (plan Starter) atteint : lire dans le navigateur intégré (panneau de droite, lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque, jamais d'édition). Relevé : `docs/figma-notes.md`.
+- Figma dans le navigateur intégré : lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque. Relevé : `docs/figma-notes.md`.
 - Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias, aussi pour le titre de Add note).
 - Icône check de Habit card : pas un Icon/*, tracé repris dans `docs/figma-notes.md`.
@@ -88,6 +88,6 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
 - Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, glissement de fermeture 80 px ou geste rapide, « Today ».
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
-- Plusieurs notes possibles le même jour. Chargement, erreur de chargement et erreur de sauvegarde : pas dessinés. En attendant : écran noir au chargement (nouvel essai toutes les 5 s), modification annulée sans message si elle ne s'enregistre pas. Pas de hors ligne.
+- Plusieurs notes possibles le même jour. Proposés dans Figma (page Design, à valider, pas encore codés) : Home · Loading `219:8655` (carte `219:8654`, à mettre dans Habit card si validée), Home · Load error `219:8854`, Home · Save error `219:8895`, Notes · Save error `219:9093`, App icon `219:9459`. En attendant : écran noir au chargement (nouvel essai toutes les 5 s), modification annulée sans message si elle ne s'enregistre pas. Pas de hors ligne.
 - Text-Icon/inverted est lié au H1 de Home et Habit detail dans Figma, mais rendu blanc : le code utilise default.
 - Phase 7 : clavier iOS devant les sheets, à tester.
