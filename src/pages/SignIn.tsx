@@ -37,12 +37,12 @@ function writePending(pending: Pending | null) {
   }
 }
 
-/** N'inscrit personne : le compte est créé à la main dans Supabase. Mode démo : n'envoie rien. */
+/** Un e-mail inconnu crée un compte. Mode démo : n'envoie rien. */
 async function sendEmail(email: string): Promise<boolean> {
   if (!supabase) return true
   const { error } = await supabase.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: appUrl, shouldCreateUser: false },
+    options: { emailRedirectTo: appUrl, shouldCreateUser: true },
   })
   return !error
 }

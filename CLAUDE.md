@@ -1,6 +1,6 @@
 # Constance
 
-PWA de suivi d'habitudes (régularité, pas performance). Un seul utilisateur, dark mode uniquement, iPhone 390 px d'abord.
+PWA de suivi d'habitudes (régularité, pas performance). Multi-utilisateurs (chacun ses données), dark mode uniquement, iPhone 390 px d'abord.
 En ligne : https://theohls.github.io/constance/ (repo public TheoHls/constance, déployé à chaque push sur main).
 
 **Mets ce fichier à jour à la fin de chaque session** (état, décisions, points ouverts). Il est public : aucune donnée personnelle ni clé.
@@ -40,7 +40,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Tokens alignés sur `DESIGN_SYSTEM.md`.
 - Text-Icon/inverted = Neutral/950.
 - Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Écrans Figma ajoutés et validés : Sign in · Code `176:8149`, Code filled `176:8217`, Code invalid `176:8272` (remplacent Check your email), Send error `193:8251`, Code error `193:8206`.
-- L'app n'inscrit personne (`shouldCreateUser: false`), compte créé à la main. Sans variables Supabase : mode démo sans connexion.
+- Inscriptions ouvertes : n'importe quel e-mail reçoit un code et crée son compte (`shouldCreateUser: true`), pour tester entre amis. E-mails envoyés par SMTP Gmail. Sans variables Supabase : mode démo sans connexion.
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
 - 18 couleurs d'habitude : 17 teintes + Neutral/300, Yellow par défaut.
 - Boutons empilés : gap 16, jamais 8.
@@ -74,7 +74,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 2. Composants de base + /kit
 - [x] 3. Composants composés
 - [x] 4. Écrans, données factices
-- [ ] 5. Supabase, RLS, auth : codé, reste à créer le projet (`docs/supabase.md`)
+- [ ] 5. Supabase, RLS, auth : projet créé et réglé, restent les 2 secrets GitHub et le test réel (`docs/supabase.md`)
 - [ ] 6. Vraies données
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
 
