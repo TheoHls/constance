@@ -74,7 +74,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 2. Composants de base + /kit
 - [x] 3. Composants composés
 - [x] 4. Écrans, données factices
-- [ ] 5. Supabase, RLS, auth : projet créé et réglé, restent les 2 secrets GitHub et le test réel (`docs/supabase.md`)
+- [ ] 5. Supabase, RLS, auth : projet, RLS, inscriptions, modèles d'e-mail et secrets GitHub OK, en ligne. **Bloqué : SMTP**, Gmail refuse le mot de passe (535). À décider : Gmail dédié + mot de passe d'application (conseillé) ou lien seul. Puis test réel (`docs/supabase.md`)
 - [ ] 6. Vraies données
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
 
