@@ -1,6 +1,6 @@
 import { useLayoutEffect } from 'react'
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router'
-import { AuthProvider, RequireAuth } from './data/auth'
+import { AuthProvider, RequireAuth, useAuth } from './data/auth'
 import { StoreProvider } from './data/store'
 import { HabitDetail } from './pages/HabitDetail'
 import { Home } from './pages/Home'
@@ -34,8 +34,9 @@ export function App() {
 }
 
 function SignedInApp() {
+  const { userId } = useAuth()
   return (
-    <StoreProvider>
+    <StoreProvider key={userId} userId={userId}>
       <Outlet />
     </StoreProvider>
   )

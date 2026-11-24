@@ -30,7 +30,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - `src/components/` : un composant par composant Figma. États Empty/Filled/Focus des inputs = valeur + focus.
 - `src/pages/` : Home, HabitDetail, Notes, SignIn + sheets (HabitSheets, NoteSheet, ChooseMonthSheet). Routes `/`, `/habits/:id`, `/habits/:id/notes`, `/sign-in` (`?expired`), `/kit`.
 - `src/lib/supabase.ts`, `src/data/auth.tsx` : client, session, `RequireAuth`. SQL : `supabase/migrations/`.
-- `src/data/store.tsx` : données factices en mémoire derrière `useStore()`, à remplacer par Supabase en phase 6.
+- `src/data/store.tsx` : `useStore()`. Affiché = enregistré + modifications en attente ; écritures en file, une par une ; un échec retire la modification. Relecture au retour dans l'app. `src/data/remote.ts` : requêtes Supabase. Mode démo : données factices en mémoire.
 - `src/components/Icon.tsx` : icônes Icon/*, trait 2 px à toutes les tailles. `src/pages/Kit.tsx` : page `/kit`.
 
 ## Décisions
@@ -54,7 +54,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Home : le bouton check = aujourd'hui (optimiste), précédé de 14 Day dot pour les jours d'avant (hier à droite).
 - Home : appui long sur une carte puis glisser = réordonner (`194:8414`, `useReorder`), sans bordure sur la carte soulevée. Roue Settings (`194:8260`) = Sign out (`195:8558`).
 - Vider une note en l'éditant puis Save la supprime, sans confirmation (`196:9263`).
-- Bottom sheet : poignée glissée vers le bas = Cancel.
+- Bottom sheet : poignée glissée vers le bas = Cancel. `overflow-clip` sur le dialog, sinon le focus le fait défiler à l'ouverture.
 - Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
 - Rattrapage d'un jour passé : sheet Add note, Pick a date puis bouton check.
 - Calendar : choix du mois, appui long = ajouter une note.
@@ -75,7 +75,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 3. Composants composés
 - [x] 4. Écrans, données factices
 - [x] 5. Supabase, RLS, auth : en ligne, envoi par Gmail dédié + mot de passe d'application, connexion réelle testée par l'utilisateur (`docs/supabase.md`)
-- [ ] 6. Vraies données
+- [ ] 6. Vraies données : branchées et testées sur un faux serveur local (créer, modifier, cocher, noter, réordonner, supprimer, erreur). À valider par l'utilisateur sur le vrai projet
 - [ ] 7. Finitions PWA (icônes, safe areas, iPhone)
 
 ## Points ouverts
@@ -87,6 +87,6 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - npm audit : 4 alertes modérées via vite-plugin-pwa, build seulement.
 - Choix hors Figma : défilement de la Heatmap, appui long 500 ms, animation de la sheet 250 ms, glissement de fermeture 80 px ou geste rapide, « Today ».
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
-- Plusieurs notes possibles le même jour. Erreurs de chargement et de sauvegarde (phase 6) : pas dessinées.
+- Plusieurs notes possibles le même jour. Chargement, erreur de chargement et erreur de sauvegarde : pas dessinés. En attendant : écran noir au chargement (nouvel essai toutes les 5 s), modification annulée sans message si elle ne s'enregistre pas. Pas de hors ligne.
 - Text-Icon/inverted est lié au H1 de Home et Habit detail dans Figma, mais rendu blanc : le code utilise default.
 - Phase 7 : clavier iOS devant les sheets, à tester.

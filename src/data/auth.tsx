@@ -12,6 +12,8 @@ type Auth = {
   linkExpired: boolean
   /** Absent en mode démo. */
   email: string | undefined
+  /** Absent en mode démo. */
+  userId: string | undefined
   signOut: () => Promise<void>
 }
 
@@ -47,6 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signedIn: supabase === null || session !== null,
         linkExpired,
         email: session?.user.email,
+        userId: session?.user.id,
         // Cet appareil seulement, marche aussi hors ligne.
         signOut: async () => {
           await supabase?.auth.signOut({ scope: 'local' })

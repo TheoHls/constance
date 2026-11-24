@@ -60,6 +60,7 @@ export function BottomSheet({ label, style: accent, onClose, children }: BottomS
   }
 
   return (
+    // overflow-clip : sinon le focus fait défiler le dialog pendant l'animation et la sheet monte trop haut.
     <dialog
       ref={dialog}
       tabIndex={-1}
@@ -72,7 +73,7 @@ export function BottomSheet({ label, style: accent, onClose, children }: BottomS
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose()
       }}
-      className="mx-auto flex h-dvh max-h-none w-full max-w-none flex-col justify-end bg-background-overlay p-8 pb-40 backdrop-blur-[8px] text-text-icon-default outline-none backdrop:bg-transparent sm:max-w-[390px]"
+      className="mx-auto flex h-dvh max-h-none w-full max-w-none flex-col overflow-clip justify-end bg-background-overlay p-8 pb-40 backdrop-blur-[8px] text-text-icon-default outline-none backdrop:bg-transparent sm:max-w-[390px]"
     >
       <div
         style={offset > 0 ? { transform: `translateY(${offset}px)` } : undefined}
