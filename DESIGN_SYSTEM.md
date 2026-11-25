@@ -48,6 +48,7 @@
 | `Border/strong` | Neutral/700 | `#404040` | stroke | Stronger border, visible dividers. |
 | `Border/focus` | White | `#ffffff` | stroke | Focused input, selected note, ring of the current day. |
 | `Border/danger` | Red/400 | `#ff6467` | stroke | Input in error. |
+| `Border/subtle` | White alpha/5 | `#ffffff0d` | stroke | Subtle inside border of Not done day dots. |
 
 ### 1.2 Primitive colors
 
@@ -56,6 +57,7 @@
 | `Black` | `#000000` | Behind `Background/default`. |
 | `White` | `#ffffff` | |
 | `Black alpha/50` | `#00000080` | Behind `Background/overlay`. |
+| `White alpha/5` | `#ffffff0d` | Behind `Border/subtle`. |
 
 Tailwind palette (v4 values). Habit colors = **/300** of each hue (Yellow = **/200**); text on accent = **/950**. Neutral feeds the Background / Text-Icon / Border aliases.
 
@@ -169,8 +171,8 @@ One React component per Figma component, **same name, same properties**. Variant
 - Home row: name, last 14 days as Day dot L (most recent on the right), check button. Checked = done today. In code, done dots and check use the habit accent. Cards stacked with 8px gap.
 
 **Day dot** (`75:16158`, 16 variants)
-- Props: `Size` S / M / L / M + note · `Habit` Done / Not done / Inactive (M only, Not done at 60%, Heatmap) · `Today` false / true
-- Done = `Background/accent`, Not done = `Background/elevated`.
+- Props: `Size` S / M / L / M + note · `Habit` Done / Not done / Inactive (M only, Not done without border at 75%, Heatmap) · `Today` false / true
+- Done = `Background/accent`, Not done = `Background/elevated` + 1px inside border `Border/subtle` (no border when Today).
 - Today = ring made with 2 drop shadows (white spread 2 + `Background/surface` spread 1), **no stroke**, clip content on.
 - L 16px (Habit card), M 12px (Heatmap, Note item), S 8px, "M + note" = M with the Note icon inside (Notes heatmap).
 

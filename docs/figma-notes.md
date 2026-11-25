@@ -20,7 +20,7 @@ Props : Selected (First, Second), Option 1 « Build a habit », Option 2 « Quit
 48 px, rayon full. Selected = ombres spread 2 Neutral/900 + spread 4 couleur.
 
 ## Day dot (75:16158)
-S 8, M 12, L 16, « M + note » = M + Note icon. Done = Background/accent, Not done = Background/elevated. Today = 2 ombres (blanc spread 2 + surface spread 1).
+S 8, M 12, L 16, « M + note » = M + Note icon. Done = Background/accent, Not done = Background/elevated + bordure intérieure 1 Border/subtle (hors Today). Inactive = 75 %, sans bordure. Today = 2 ombres (blanc spread 2 + surface spread 1).
 
 ## Habit card (42:7796)
 374 de large, p Spacing/20, gap 16, rayon 24, Background/surface, bordure Border/default. Titre Text xl, Neutral/200. Points : gap 7, alignés à droite, débordement masqué. Bouton check 40 px : non coché elevated + bordure 2,5 Neutral/500, icône Border/strong ; coché accent, icône on-accent. Check : `M5 13.2592L7.58583 15.9568C8.2525 16.6523 8.58583 17 9.00004 17C9.41425 17 9.74759 16.6523 10.4143 15.9568L19 7`, trait 3.

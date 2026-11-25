@@ -28,6 +28,7 @@
   --color-border-strong: var(--border-strong);
   --color-border-focus: var(--border-focus);
   --color-border-danger: var(--border-danger);
+  --color-border-subtle: var(--border-subtle);
 
   --spacing-0: var(--space-0);
   --spacing-2: var(--space-2);

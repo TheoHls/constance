@@ -55,7 +55,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Home : le bouton check = aujourd'hui (optimiste), précédé de 14 Day dot pour les jours d'avant (hier à droite).
 - Home : appui long sur une carte puis glisser = réordonner (`194:8414`, `useReorder`), sans bordure sur la carte soulevée. Roue Settings (`194:8260`) = Sign out (`195:8558`).
 - Vider une note en l'éditant puis Save la supprime, sans confirmation (`196:9263`).
-- Heatmap : jours avant la création de l'habitude ou après aujourd'hui = Day dot Inactive (60 %, `235:9529`), sauf jour coché ou noté.
+- Heatmap : jours avant la création de l'habitude ou après aujourd'hui = Day dot Inactive (75 %, sans bordure, `235:9529`), sauf jour coché ou noté.
 - Quit : cochée d'office de `quit_since` à aujourd'hui, jours ratés = checkins `done = false`, croix au lieu du check (`CheckButton type`), aide sous le toggle. Changer de type : le passé est gardé, la règle change aujourd'hui.
 - Jours antérieurs au début : modifiables un par un (Build et Quit), sans jamais avancer le début. Validé.
 - Create / Edit : Save fixe en bas (Sheet footer `235:9800`, surface 75 %, flou).
@@ -82,10 +82,10 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 4. Écrans, données factices
 - [x] 5. Supabase, RLS, auth : en ligne, envoi par Gmail dédié + mot de passe d'application, connexion réelle testée par l'utilisateur (`docs/supabase.md`)
 - [x] 6. Vraies données : validé par l'utilisateur sur le vrai projet
-- [ ] 7. Finitions PWA : icône, encoche (bandeau noir dans ScreenHeader, sheets sous l'encoche), clavier (`useKeyboard` dans BottomSheet), portrait : faits. Reste le test sur un vrai iPhone
+- [x] 7. Finitions PWA : icône, encoche (bandeau noir dans ScreenHeader, sheets sous l'encoche), clavier (`useKeyboard` dans BottomSheet), portrait : validé sur iPhone
 
 ## Points ouverts
-- REPRISE : migration 0002 lancée, habitudes Quit en ligne. Reste le test sur iPhone, puis clore la phase 7.
+- REPRISE : toutes les phases sont validées. Nouveau style des Day dot en ligne (Border/subtle, Inactive 75 %), à regarder sur iPhone.
 - Figma dans le navigateur intégré : lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque. Relevé : `docs/figma-notes.md`.
 - Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias, aussi pour le titre de Add note).
@@ -96,4 +96,3 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - `focus-ring` (focus clavier, Border/focus) n'existe pas dans Figma : ajout d'accessibilité.
 - Plusieurs notes possibles le même jour. Chargement et erreurs : codés depuis Home · Loading `219:8655`, Home · Load error `219:8854`, Home · Save error `219:8895`, Notes · Save error `219:9093`. Loading n'est dessiné que pour Home (écran noir ailleurs). Pas de hors ligne.
 - Text-Icon/inverted est lié au H1 de Home et Habit detail dans Figma, mais rendu blanc : le code utilise default.
-- Phase 7 : clavier testé en simulant visualViewport seulement (pas de Xcode), à confirmer sur iPhone.

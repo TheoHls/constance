@@ -16,11 +16,12 @@ const sizeClasses: Record<DayDotProps['size'], string> = {
 
 export function DayDot({ size, habit, today = false }: DayDotProps) {
   const done = habit === 'done'
+  const border = habit === 'not done' && !today
   return (
     <span
       className={`flex shrink-0 items-center justify-center overflow-clip rounded-full ${sizeClasses[size]} ${
         done ? 'bg-background-accent' : 'bg-background-elevated'
-      } ${habit === 'inactive' ? 'opacity-60' : ''} ${today ? 'today-ring' : ''}`}
+      } ${border ? 'border border-border-subtle' : ''} ${habit === 'inactive' ? 'opacity-75' : ''} ${today ? 'today-ring' : ''}`}
     >
       {size === 'M + note' && <NoteIcon color={done ? 'dark' : 'light'} />}
     </span>
