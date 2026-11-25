@@ -40,7 +40,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Letter-spacing des titres en %, line-height 100 = Auto.
 - Tokens alignés sur `DESIGN_SYSTEM.md`.
 - Text-Icon/inverted = Neutral/950.
-- Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Écrans Figma ajoutés et validés : Sign in · Code `176:8149`, Code filled `176:8217`, Code invalid `176:8272` (remplacent Check your email), Send error `193:8251`, Code error `193:8206`.
+- Connexion : lien magique + code à saisir dans la PWA (iOS sépare Safari et PWA). Écrans Figma ajoutés et validés : Sign in · Code `176:8149`, Code filled `176:8217`, Code invalid `176:8272` (remplacent Check your email, supprimé de Figma), Send error `193:8251`, Code error `193:8206`.
 - Inscriptions ouvertes : n'importe quel e-mail reçoit un code et crée son compte (`shouldCreateUser: true`), pour tester entre amis. E-mails envoyés par SMTP Gmail. Sans variables Supabase : mode démo sans connexion.
 - `anon key` et URL Supabase : secrets GitHub, jamais dans le code.
 - 18 couleurs d'habitude : 17 teintes + Neutral/300, Yellow par défaut.
@@ -85,8 +85,8 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [x] 7. Finitions PWA : icône, encoche (bandeau noir dans ScreenHeader, sheets sous l'encoche), clavier (`useKeyboard` dans BottomSheet), portrait : validé sur iPhone
 
 ## Points ouverts
-- REPRISE : toutes les phases sont validées. Nouveau style des Day dot en ligne (Border/subtle, Inactive 75 %), à regarder sur iPhone.
-- Figma dans le navigateur intégré : lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque. Relevé : `docs/figma-notes.md`.
+- REPRISE : toutes les phases sont validées. Day dot (Border/subtle, Inactive 75 %) en ligne, à regarder sur iPhone. Audit Figma / app fait (variables, styles, composants ; écrans : textes et structure, pas au pixel), écarts corrigés dans Figma.
+- Figma dans le navigateur intégré : lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque. `window.figma` (API plugin) sert à lire et sélectionner ; copier / Paste to replace : menu contextuel, pas le clavier. Relevé : `docs/figma-notes.md`.
 - Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias, aussi pour le titre de Add note).
 - Icône check de Habit card : pas un Icon/*, tracé repris dans `docs/figma-notes.md`.

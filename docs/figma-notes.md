@@ -27,7 +27,7 @@ S 8, M 12, L 16, « M + note » = M + Note icon. Done = Background/accent, Not d
 
 ## Text input (41:1479)
 340 large, gap 8. Label Text sm secondary. Champ h 52, px 16, gap 12, rayon 16, Background/elevated, valeur Text md, icône 20. Bordure intérieure 1,5 : Empty/Filled/Disabled Border/default, Error Border/danger ; Focus 2 Border/focus. Placeholder tertiary. Disabled = opacité 45 %.
-Helper : Text sm tertiary, danger en Error.
+Helper : Text xs tertiary, danger en Error.
 
 ## Large text input (41:1490)
 Même cadre, p 16, champ 92 (valeur 57 min). Pas de compteur ni de limite (décision utilisateur). Disabled 45 %.

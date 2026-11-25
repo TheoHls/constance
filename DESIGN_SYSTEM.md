@@ -207,7 +207,7 @@ One React component per Figma component, **same name, same properties**. Variant
 
 | Flow | Screens |
 |---|---|
-| Sign in (magic link) | Sign in · Sign in · Email filled · Sign in · Check your email · Sign in · Link expired |
+| Sign in (magic link) | Sign in · Sign in · Email filled · Sign in · Code · Sign in · Code filled · Sign in · Code invalid · Sign in · Code error · Sign in · Link expired · Sign in · Send error |
 | Home | Home · Home · Empty |
 | Habit detail | Habit detail · Habit detail - No notes · Habit detail · Choose month · Habit detail · Pick a date |
 | Notes | Notes · Notes · Add note · Notes · Empty |
