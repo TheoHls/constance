@@ -57,6 +57,7 @@ Commandes : `npm run dev`, `npm run build` (typecheck inclus), `npm run preview`
 - Vider une note en l'éditant puis Save la supprime, sans confirmation (`196:9263`).
 - Heatmap : jours avant la création de l'habitude ou après aujourd'hui = Day dot Inactive (60 %, `235:9529`), sauf jour coché ou noté.
 - Quit : cochée d'office de `quit_since` à aujourd'hui, jours ratés = checkins `done = false`, croix au lieu du check (`CheckButton type`), aide sous le toggle. Changer de type : le passé est gardé, la règle change aujourd'hui.
+- Jours antérieurs au début : modifiables un par un (Build et Quit), sans jamais avancer le début. Validé.
 - Create / Edit : Save fixe en bas (Sheet footer `235:9800`, surface 75 %, flou).
 - Bottom sheet : poignée glissée vers le bas = Cancel. `overflow-clip` sur le dialog, sinon le focus le fait défiler à l'ouverture.
 - Heatmap : 26 semaines défilantes, anneau Today. Fondu de chaque côté où il reste à défiler, grille jusqu'au bord droit de la carte. Nom de mois aligné sur la colonne du 1er du mois (Figma les place au hasard). Écran Notes : Day dot « M + note » les jours avec note.
@@ -84,7 +85,7 @@ Auth : supabase-js, flowType pkce, session persistante. Expliquer ensuite commen
 - [ ] 7. Finitions PWA : icône, encoche (bandeau noir dans ScreenHeader, sheets sous l'encoche), clavier (`useKeyboard` dans BottomSheet), portrait : faits. Reste le test sur un vrai iPhone
 
 ## Points ouverts
-- **REPRISE : ne rien pousser avant d'avoir lancé `supabase/migrations/0002_quit_habits.sql` dans Supabase** (sinon l'app en ligne ne charge plus les habitudes). Habitudes Quit codées, testées en local, commitées mais pas poussées. Ensuite : push, vérifier en ligne, test iPhone, clore la phase 7, retirer cette ligne.
+- REPRISE : migration 0002 lancée, habitudes Quit en ligne. Reste le test sur iPhone, puis clore la phase 7.
 - Figma dans le navigateur intégré : lien `?node-id=`, ~15 s de chargement, clic Cmd pour un calque. Relevé : `docs/figma-notes.md`.
 - Large text input : dans Figma, Counter existe encore mais Show counter = False par défaut ; non repris dans le code.
 - Habit card : DESIGN_SYSTEM dit Text md pour le nom ; le code suit Figma, Text xl et Neutral/200 (primitive, seule exception aux alias, aussi pour le titre de Add note).
